@@ -1,26 +1,23 @@
 # CHANGELOG - go_expvar
 
-1.0.3 / 2017-06-15
-==================
+## 1.0.4 / 2018-09-04
+
+* [Fixed] Move Goexpvar to pytest. See [#2089](https://github.com/DataDog/integrations-core/pull/2089).
+* [Fixed] Add data files to the wheel package. See [#1727](https://github.com/DataDog/integrations-core/pull/1727).
+
+## 1.0.3 / 2017-06-15
 
 * [BUGFIX] Fix path tag appended to all metrics matching path regex. See [#472][]
 
-1.0.2 / 2017-06-05
-==================
+## 1.0.2 / 2017-06-05
 
 * [FEATURE] Make the hardcoded expvar URL path optional in the configuration
 
-1.0.1 / 2017-05-22
-==================
-
-### Changes
+## 1.0.1 / 2017-05-22
 
 * [FEATURE] ssl support for go_expvar check
 
-1.0.0 / 2017-03-22
-==================
-
-### Changes
+## 1.0.0 / 2017-03-22
 
 * [FEATURE] adds go_expvar integration.
 

@@ -50,6 +50,8 @@ nosetests.xml
 coverage.xml
 *,cover
 .hypothesis/
+.pytest_cache/
+.benchmarks/
 
 # Translations
 *.mo
@@ -91,3 +93,16 @@ tmp
 .rbenv-gemsets
 .ruby-version
 
+# Common IDEs & editors
+.idea/
+.vscode/
+
+# wheels
+wheelhouse/
+*.whl
+
+.pytest_cache
+
+# by default, ignore in-toto metadata from the command line
+.links/
+*.link

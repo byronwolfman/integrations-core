@@ -4,20 +4,16 @@
 
 Send events from your Nagios-monitored infrastructure to Datadog for richer alerting and to help correlate Nagios events with metrics from your Datadog-monitored infrastructure.
 
-This check watches your Nagios server's logs and sends events to your Datadog event stream: track service flaps, host state changes, passive service checks, host and service downtimes, and more. The check can also send Nagios Perfdata as metrics to Datadog.
-
-* Watches your Nagios server's logs and sends events to your Datadog event stream. It emits eve
-
-The check emits events for service flaps, host state changes, passive service checks, host and service downtimes, and more. It can also send Nagios Perfdata to Datadog as metrics.
+This check watches your Nagios server's logs and sends events to your Datadog event stream: track service flaps, host state changes, passive service checks, host and service downtimes, and more. This check can also send Nagios performance data as metrics to Datadog.
 
 ## Setup
 ### Installation
 
-The Nagios check is packaged with the Agent, so simply [install the Agent](https://app.datadoghq.com/account/settings#agent) on your Nagios servers. If you need the newest version of the check, install the `dd-check-nagios` package.
+The Nagios check is included in the [Datadog Agent][1] package, so you don't need to install anything else on your Nagios servers.
 
 ### Configuration
 
-Create a file `nagios.yaml` in the Agent's `conf.d` directory. See the [sample nagios.yaml](https://github.com/DataDog/integrations-core/blob/master/nagios/conf.yaml.example) for all available configuration options:
+Edit the `nagios.d/conf.yaml` file in the `conf.d/` folder at the root of your [Agent's configuration directory][7]. See the [sample nagios.d/conf.yaml][2] for all available configuration options:
 
 ```
 init_config:
@@ -31,41 +27,24 @@ instances:
     collect_service_performance_data: True # default is False
 ```
 
-The Agent reads the main nagios configuration file to get the locations of the nagios log files it should watch.
+The Agent reads the main Nagios configuration file to get the locations of the Nagios log files it should watch.
 
-This check also works with Icinga, the popular fork of Nagios. If you use Icinga, just set `nagios_conf` to the location of your Icinga configuration file.
+This check also works with Icinga, a popular fork of Nagios. If you use Icinga, just set `nagios_conf` to the location of your Icinga configuration file.
 
-Restart the Agent to start sending Nagios events and (optionally) perfdata metrics to Datadog.
+[Restart the Agent][3] to start sending Nagios events and (optionally) performance data metrics to Datadog.
 
 ### Validation
 
-[Run the Agent's `info` subcommand](https://help.datadoghq.com/hc/en-us/articles/203764635-Agent-Status-and-Information) and look for `nagios` under the Checks section:
-
-```
-  Checks
-  ======
-    [...]
-
-    nagios
-    -------
-      - instance #0 [OK]
-      - Collected 10 metrics, 15 events & 0 service checks
-
-    [...]
-```
-
-## Compatibility
-
-The nagios check is compatible with all major platforms.
+[Run the Agent's `status` subcommand][4] and look for `nagios` under the Checks section.
 
 ## Data Collected
 ### Metrics
 
-With a default configuration, the Nagios check doesn't collect any metrics. But if you set `collect_host_performance_data` and/or `collect_service_performance_data` to `True`, the check watches for perfdata and sumbits it as gauge metrics to Datadog.
+With the default configuration, the Nagios check doesn't collect any metrics. But if you set `collect_host_performance_data` and/or `collect_service_performance_data` to `True`, the check watches for Nagios performance data and submits it as gauge metrics to Datadog.
 
 ### Events
 
-The check watches the Nagios events log for log lines containing these string, emitting an event for each such line:
+The check watches the Nagios events log for log lines containing these strings, emitting an event for each line:
 
 - SERVICE FLAPPING ALERT
 - ACKNOWLEDGE_SVC_PROBLEM
@@ -81,11 +60,20 @@ The check watches the Nagios events log for log lines containing these string, e
 - SERVICE DOWNTIME ALERT
 
 ### Service Checks
-The Nagios check does not include any service check at this time.
+The Nagios check does not include any service checks at this time.
 
 ## Troubleshooting
-Need help? Contact [Datadog Support](http://docs.datadoghq.com/help/).
+Need help? Contact [Datadog Support][5].
 
 ## Further Reading
 
-* [Understand your Nagios alerts with Datadog](https://www.datadoghq.com/blog/nagios-monitoring/)
+* [Understand your Nagios alerts with Datadog][6]
+
+
+[1]: https://app.datadoghq.com/account/settings#agent
+[2]: https://github.com/DataDog/integrations-core/blob/master/nagios/datadog_checks/nagios/data/conf.yaml.example
+[3]: https://docs.datadoghq.com/agent/faq/agent-commands/#start-stop-restart-the-agent
+[4]: https://docs.datadoghq.com/agent/faq/agent-commands/#agent-status-and-information
+[5]: https://docs.datadoghq.com/help/
+[6]: https://www.datadoghq.com/blog/nagios-monitoring/
+[7]: https://docs.datadoghq.com/agent/faq/agent-configuration-files/#agent-configuration-directory

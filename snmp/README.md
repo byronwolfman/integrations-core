@@ -7,13 +7,13 @@ This check lets you collect SNMP metrics from your network devices.
 ## Setup
 ### Installation
 
-The SNMP check is packaged with the Agent, so simply [install the Agent](https://app.datadoghq.com/account/settings#agent) on any host where you want to run the check. If you need the newest version of the check, install the `dd-check-snmp` package.
+The SNMP check is included in the [Datadog Agent][1] package, so you don't need to install anything else on any host where you want to run the check.
 
 ### Configuration
 
 The SNMP check doesn't collect anything by default; you have to tell it specifically what to collect.
 
-Here's an example `snmp.yaml`. See the [sample snmp.yaml](https://github.com/DataDog/integrations-core/blob/master/snmp/conf.yaml.example) for all available configuration options:
+Here's an example of `snmp.d/conf.yaml` file in the `conf.d/` folder at the root of your [Agent's configuration directory][11]. See the [sample snmp.d/conf.yaml][2] for all available configuration options:
 
 ```
 init_config:
@@ -23,10 +23,10 @@ instances:
    - ip_address: localhost
      port: 161
      community_string: public
-#    snmp_version: 1 # set to 1 if your devices use SNMP v1; no need to set otherwise, the default is 2
+  #  snmp_version: 1 # set to 1 if your devices use SNMP v1; no need to set otherwise, the default is 2
      timeout: 1      # in seconds; default is 1
      retries: 5
-#    enforce_mib_constraints: false # set to false to NOT verify that returned values meet MIB constraints; default is true
+  #  enforce_mib_constraints: false # set to false to NOT verify that returned values meet MIB constraints; default is true
      metrics:
        - MIB: UDP-MIB
          symbol: udpInDatagrams
@@ -47,65 +47,113 @@ List each SNMP device as a distinct instance, and for each instance, list any SN
 #### MIB and symbol
 
 ```
-    metrics:
-      - MIB: UDP-MIB
-        symbol: udpInDatagrams
+metrics:
+  - MIB: UDP-MIB
+    symbol: udpInDatagrams
 ```
 
 #### OID and name
 
 ```
-    metrics:
-      - OID: 1.3.6.1.2.1.6.5
-        name: tcpActiveOpens # what to use in the metric name; can be anything
+metrics:
+   - OID: 1.3.6.1.2.1.6.5
+     name: tcpActiveOpens # what to use in the metric name; can be anything
 ```
 
 #### MIB and table
 
 ```
-    metrics:
-      - MIB: IF-MIB
-        table: ifTable
-        symbols:
-          - ifInOctets      # row whose value becomes metric value
-        metric_tags:
-          - tag: interface  # tag name
-            column: ifDescr # the column name to get the tag value from, OR
-            #index: 1       # the column index to get the tag value from
+metrics:
+  - MIB: IF-MIB
+    table: ifTable
+    symbols:
+       - ifInOctets      # row whose value becomes metric value
+    metric_tags:
+       - tag: interface  # tag name
+         column: ifDescr # the column name to get the tag value from, OR
+         #index: 1       # the column index to get the tag value from
 ```
 
 This lets you collect metrics on all rows in a table (`symbols`) and specify how to tag each metric (`metric_tags`).
 
+In the above example, the agent would gather the rate of octets received on each interface and tag it with the interface name (found in the ifDescr column), resulting in a tag such as ```interface:eth0```
+
+```
+metrics:
+  - MIB: IP-MIB
+    table: ipSystemStatsTable
+    symbols:
+      - ipSystemStatsInReceives
+    metric_tags:
+      - tag: ipversion
+    index: 1
+```
+
+You can also gather tags based on the indices of your row, in case they are meaningful. In the above example, the first row index contains the ip version that the row describes (ipv4 vs. ipv6)
+
 #### Use your own MIB
 
-The SNMP check can collect MIB data that is formatted via [pysnmp](https://pypi.python.org/pypi/pysnmp). You can use the `build-pysnmp-mibs` script that ships with pysnmp to generate such data.
+To use your own MIB with the datadog-agent, convert them to the pysnmp format. This can be done using the ```build-pysnmp-mibs``` script that ships with pysnmp, but the `build-pysnmp-mib` script has been made obsolete since pysnmp 4.3 (Reference [here][9]); `mibdump.py` replaces it.
 
-Put all your pysnmp MIBs into any directory and point the SNMP check to this directory: set `mibs_folder: <your_mibs_folder>` under the `init_config` section of `snmp.yaml`.
+Since Datadog agent version 5.14, our PySNMP dependency has been upgraded from version 4.25 to 4.3.5 (Reference on our [changelog][8]). Meaning the `build-pysnmp-mib` which shipped with our agent from version 5.13.x and earlier has also been replaced with `mibdump.py`.
+ 
+Finding the location of mibdump.py
+
+```
+find /opt/datadog-agent/ -type f -name build-pysnmp-mib.py -o -name mibdump.py
+/opt/datadog-agent/bin/mibdump.py
+```
+
+Below is the format to use the script:
+
+```
+/opt/datadog-agent/bin/mibdump.py --mib-source /path/to/mib/files/  --mib-source http://mibs.snmplabs.com/asn1/@mib@ --destination-directory=/path/to/converted/mib/pyfiles/ --destination-format=pysnmp <MIB_FILE_NAME>
+```
+
+Example using the `CISCO-TCP-MIB.my`:
+
+```
+ # /opt/datadog-agent/bin/mibdump.py --mib-source /path/to/mib/files/  --mib-source http://mibs.snmplabs.com/asn1/@mib@ --destination-directory=/opt/datadog-agent/pysnmp/custom_mibpy/ --destination-format=pysnmp CISCO-TCP-MIB
+
+ Source MIB repositories: /path/to/mib/files/, http://mibs.snmplabs.com/asn1/@mib@
+ Borrow missing/failed MIBs from: http://mibs.snmplabs.com/pysnmp/notexts/@mib@
+ Existing/compiled MIB locations: pysnmp.smi.mibs, pysnmp_mibs
+ Compiled MIBs destination directory: /opt/datadog-agent/pysnmp/custom_mibpy/
+ MIBs excluded from code generation: INET-ADDRESS-MIB, PYSNMP-USM-MIB, RFC-1212, RFC-1215, RFC1065-SMI, RFC1155-SMI, RFC1158-MIB, RFC1213-MIB, SNMP-FRAMEWORK-MIB, SNMP-TARGET-MIB, SNMPv2-CONF, SNMPv2-SMI, SNMPv2-TC, SNMPv2-TM, TRANSPORT-ADDRESS-MIB
+ MIBs to compile: CISCO-TCP
+ Destination format: pysnmp
+ Parser grammar cache directory: not used
+ Also compile all relevant MIBs: yes
+ Rebuild MIBs regardless of age: no
+ Dry run mode: no Create/update MIBs: yes
+ Byte-compile Python modules: yes (optimization level no)
+ Ignore compilation errors: no
+ Generate OID->MIB index: no
+ Generate texts in MIBs: no
+ Keep original texts layout: no
+ Try various file names while searching for MIB module: yes
+ Created/updated MIBs: CISCO-SMI, CISCO-TCP-MIB (CISCO-TCP)
+ Pre-compiled MIBs borrowed:
+ Up to date MIBs: INET-ADDRESS-MIB, SNMPv2-CONF, SNMPv2-SMI, SNMPv2-TC, TCP-MIB
+ Missing source MIBs:
+ Ignored MIBs:
+ Failed MIBs:
+
+
+ #ls /opt/datadog-agent/pysnmp/custom_mibpy/
+CISCO-SMI.py CISCO-SMI.pyc CISCO-TCP-MIB.py CISCO-TCP-MIB.pyc
+
+```
+
+The Agent with the path looks for the converted MIB Python files by specifying the destination path with mibs_folder: in the [SNMP yaml configuration][10].
 
 ---
 
-Restart the Agent to start sending SNMP metrics to Datadog.
+[Restart the Agent][3] to start sending SNMP metrics to Datadog.
 
 ### Validation
 
-[Run the Agent's `info` subcommand](https://help.datadoghq.com/hc/en-us/articles/203764635-Agent-Status-and-Information) and look for `snmp` under the Checks section:
-
-```
-  Checks
-  ======
-    [...]
-
-    snmp
-    -------
-      - instance #0 [OK]
-      - Collected 26 metrics, 0 events & 1 service check
-
-    [...]
-```
-
-## Compatibility
-
-The snmp check is compatible with all major platforms.
+[Run the Agent's `status` subcommand][4] and look for `snmp` under the Checks section.
 
 ## Data Collected
 ### Metrics
@@ -113,7 +161,7 @@ The snmp check is compatible with all major platforms.
 The SNMP check will submits specified metrics under the `snmp.*` namespace.
 
 ### Events
-The SNMP check does not include any event at this time.
+The SNMP check does not include any events at this time.
 
 ### Service Checks
 
@@ -122,70 +170,20 @@ The SNMP check does not include any event at this time.
 Returns CRITICAL if the Agent cannot collect SNMP metrics, otherwise OK.
 
 ## Troubleshooting
-Need help? Contact [Datadog Support](http://docs.datadoghq.com/help/).
+Need help? Contact [Datadog Support][5].
 
 ## Further Reading
-### Datadog Blog
-Learn more about infrastructure monitoring and all our integrations on [our blog](https://www.datadoghq.com/blog/)
 
-### Knowledge Base 
-* [How to monitor SNMP devices?](https://help.datadoghq.com/hc/en-us/articles/204797329-How-to-monitor-SNMP-devices-)
-* [List of commonly used/compatible OIDs](https://help.datadoghq.com/hc/en-us/articles/204616829-For-SNMP-does-Datadog-have-a-list-of-commonly-used-compatible-OIDs-)
+* [For SNMP, does Datadog have a list of commonly used/compatible OIDs?  ][7]
 
-Our agent allows you to monitor the SNMP Counters and Gauge of your choice. Specify for each device the metrics that you want to monitor in the ```metrics``` subsection using one of the following methods:
 
-#### Specify a MIB and the symbol that you want to export
-
-    metrics:
-      - MIB: UDP-MIB
-        symbol: udpInDatagrams
-
-#### Specify an OID and the name you want the metric to appear under in Datadog
-
-    metrics:
-      - OID: 1.3.6.1.2.1.6.5
-        name: tcpActiveOpens
-
-*The name here is the one specified in the MIB but you could use any name.*
-
-#### Specify a MIB and a table you want to extract information from
-
-    metrics:
-      - MIB: IF-MIB
-        table: ifTable
-        symbols:
-          - ifInOctets
-        metric_tags:
-          - tag: interface
-        column: ifDescr
-
-This allows you to gather information on all the table's row, as well as to specify tags to gather.
-
-Use the ```symbols``` list to specify the metric to gather and the ```metric_tags``` list to specify the name of the tags and the source to use.
-
-In this example the agent would gather the rate of octets received on each interface and tag it with the interface name (found in the ifDescr column), resulting in a tag such as ```interface:eth0```
-
-    metrics:
-      - MIB: IP-MIB
-        table: ipSystemStatsTable
-        symbols:
-          - ipSystemStatsInReceives
-        metric_tags:
-          - tag: ipversion
-        index: 1
-
-You can also gather tags based on the indices of your row, in case they are meaningful. In this example, the first row index contains the ip version that the row describes (ipv4 vs. ipv6)
-
-#### Use your own Mib
-
-To use your own MIB with the datadog-agent, you need to convert them to the pysnmp format. This can be done using the ```build-pysnmp-mibs``` script that ships with pysnmp.
-
-It has a dependency on ```smidump```, from the libsmi2ldbl package so make sure it is installed. Make also sure that you have all the dependencies of your MIB in your mib folder or it won't be able to convert your MIB correctly.
-
-##### Run
-
-    $ build-pysnmp-mib -o YOUR-MIB.py YOUR-MIB.mib
-
-where YOUR-MIB.mib is the MIB you want to convert.
-
-Put all your pysnmp mibs into a folder and specify this folder's path in ```snmp.yaml``` file, in the ```init_config``` section.
+[1]: https://app.datadoghq.com/account/settings#agent
+[2]: https://github.com/DataDog/integrations-core/blob/master/snmp/datadog_checks/snmp/data/conf.yaml.example
+[3]: https://docs.datadoghq.com/agent/faq/agent-commands/#start-stop-restart-the-agent
+[4]: https://docs.datadoghq.com/agent/faq/agent-commands/#agent-status-and-information
+[5]: https://docs.datadoghq.com/help/
+[7]: https://docs.datadoghq.com/integrations/faq/for-snmp-does-datadog-have-a-list-of-commonly-used-compatible-oids
+[8]: https://github.com/DataDog/dd-agent/blob/master/CHANGELOG.md#dependency-changes-3
+[9]: https://stackoverflow.com/questions/35204995/build-pysnmp-mib-convert-cisco-mib-files-to-a-python-fails-on-ubuntu-14-04
+[10]: https://github.com/DataDog/integrations-core/blob/master/snmp/datadog_checks/snmp/data/conf.yaml.example#L3
+[11]: https://docs.datadoghq.com/agent/faq/agent-configuration-files/#agent-configuration-directory

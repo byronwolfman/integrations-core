@@ -1,16 +1,30 @@
 # CHANGELOG - spark
 
-1.0.1 / 2017-07-18
-==================
+## 1.4.1 / 2018-09-04
 
-### Changes
+* [Fixed] Add data files to the wheel package. See [#1727](https://github.com/DataDog/integrations-core/pull/1727).
+
+## 1.4.0 / 2018-06-07
+
+* [Added] Add support for HTTP authentication. See [#1680](https://github.com/DataDog/integrations-core/pull/1680).
+
+## 1.3.0 / 2018-05-11
+
+* [FEATURE] adds custom tag support to service check.
+
+## 1.2.0 / 2018-02-13
+
+* [IMPROVEMENT] Add configuration options `ssl_verify`, `ssl_cert` and `ssl_key` to allow SSL configuration. See [#1064][].
+
+## 1.1.0 / [2018-01-10]
+
+* [IMPROVEMENT] Filter Spark frameworks by port. See [#459][].  (Thanks [@johnjeffers][])
+
+## 1.0.1 / 2017-07-18
 
 * [BUGFIX] Build proxy-compatible URL . See [#437][]
 
-1.0.0 / 2017-03-22
-==================
-
-### Changes
+## 1.0.0 / 2017-03-22
 
 * [FEATURE] adds spark integration.
 

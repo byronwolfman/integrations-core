@@ -1,49 +1,60 @@
 # CHANGELOG - mongo
 
-1.5.0 / Unreleased
-==================
-### Changes
+## 1.6.1 / 2018-09-04
+
+* [Fixed] Add data files to the wheel package. See [#1727](https://github.com/DataDog/integrations-core/pull/1727).
+
+## 1.6.0 / 2018-06-13
+
+* [Added] [mongo] allow disabling of replica access. See [#1516](https://github.com/DataDog/integrations-core/pull/1516).
+* [Changed] [mongo] properly parse metric. See [#1498](https://github.com/DataDog/integrations-core/pull/1498).
+
+## 1.5.4 / Unreleased
+
+* [IMPROVEMENT] Allow disabling of replica access. See #1516
+
+## 1.5.3 / 2018-05-11
+
+* [BUGFIX] Added `top` metrics ending in `countps` that properly submit as `rate`s. See #1491
+
+## 1.5.2 / 2018-02-13
+
+* [DOC] Adding configuration for log collection in `conf.yaml`
+* [BUGFIX] Pass replica set metric collection if `replSetGetStatus` command not available. See [#1092][]
+
+## 1.5.1 / 2018-01-10
+
+* [BUGFIX] Pass replica set metric collection if not running standalone instance instead of raising exception. See [#915][]
+
+## 1.5.0 / 2017-11-21
 
 * [FEATURE] Collect metrics about indexes usage. See [#823][]
 * [IMPROVEMENT] Upgrading pymongo to version 3.5. See [#747][]
+* [IMPROVEMENT] Filter out oplog entries without a timestamp. See [#406][], thanks [@hindmanj][]
 
-
-1.4.0 / 2017-10-10
-==================
-### Changes
+## 1.4.0 / 2017-10-10
 
 * [IMPROVEMENT] Started monitoring the wiredTiger cache page read/write statistics. See [#769][] (Thanks [@dnavre][])
 
-1.3.0 / 2017-08-28
-==================
-### Changes
+## 1.3.0 / 2017-08-28
 
 * [FEATURE] Add support for `authSource` parameter in mongo URL. See [#691][]
 * [IMPROVEMENT] Simplify "system.namespaces" usage. See [#625][], thanks [@dtbartle][]
 * [BUGFIX] Don't overwrite the higher-level `cli`/`db` for replset stats. See [#627][], thanks [@dtbartle][]
 
-1.2.0 / 2017-07-18
-==================
-### Changes
+## 1.2.0 / 2017-07-18
 
 * [IMPROVEMENT] Add support for `mongo.oplog.*` metrics for Mongo versions  3.x. See [#491][]
 
-1.1.0 / 2017-06-05
-==================
-### Changes
+## 1.1.0 / 2017-06-05
 
 * [IMPROVEMENT] Set connectTimeout & serverSelectionTimeout to timeout in config. See [#352][]
 
-1.0.1 / 2017-04-24
-==================
-### Changes
+## 1.0.1 / 2017-04-24
 
 * [BUGFIX] Redact username/password in logs, etc. See [#326][] and [#347][]
 
-1.0.0 / 2017-03-22
-==================
-
-### Changes
+## 1.0.0 / 2017-03-22
 
 * [FEATURE] adds mongo integration.
 
@@ -51,6 +62,7 @@
 [#326]: https://github.com/DataDog/integrations-core/issues/326
 [#347]: https://github.com/DataDog/integrations-core/issues/347
 [#352]: https://github.com/DataDog/integrations-core/issues/352
+[#406]: https://github.com/DataDog/integrations-core/issues/406
 [#491]: https://github.com/DataDog/integrations-core/issues/491
 [#625]: https://github.com/DataDog/integrations-core/issues/625
 [#627]: https://github.com/DataDog/integrations-core/issues/627
@@ -58,5 +70,8 @@
 [#747]: https://github.com/DataDog/integrations-core/issues/747
 [#769]: https://github.com/DataDog/integrations-core/issues/769
 [#823]: https://github.com/DataDog/integrations-core/issues/823
+[#915]: https://github.com/DataDog/integrations-core/issues/915
+[#1092]: https://github.com/DataDog/integrations-core/issues/1092
 [@dnavre]: https://github.com/dnavre
 [@dtbartle]: https://github.com/dtbartle
+[@hindmanj]: https://github.com/hindmanj

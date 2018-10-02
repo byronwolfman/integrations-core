@@ -1,9 +1,20 @@
 {
+  "categories": [
+    "cloud"
+  ],
+  "creates_events": false,
+  "display_name": "OpenStack",
+  "guid": "944452d0-208e-4d1c-8adb-495f517ce2c2",
+  "is_public": true,
   "maintainer": "help@datadoghq.com",
-  "manifest_version": "0.1.1",
-  "max_agent_version": "6.0.0",
-  "min_agent_version": "5.6.3",
+  "manifest_version": "1.0.0",
+  "metric_prefix": "openstack.",
+  "metric_to_check": "openstack.nova.hypervisor_load.1",
   "name": "openstack",
+  "process_signatures": [
+    "stack.sh"
+  ],
+  "public_title": "Datadog-OpenStack Integration",
   "short_description": "Track hypervisor and VM-level resource usage, plus Neutron metrics.",
   "support": "core",
   "supported_os": [
@@ -11,12 +22,5 @@
     "mac_os",
     "windows"
   ],
-  "version": "1.0.1",
-  "guid": "944452d0-208e-4d1c-8adb-495f517ce2c2",
-  "public_title": "Datadog-Openstack Integration",
-  "categories":["cloud"],
-  "type":"check",
-  "doc_link": "https://docs.datadoghq.com/integrations/openstack/",
-  "is_public": true,
-  "has_logo": true
+  "type": "check"
 }

@@ -1,26 +1,41 @@
 # CHANGELOG - sqlserver
 
-1.2.0 / 2017-10-10
-==================
+## 1.6.0 / 2018-09-04
 
-### Changes
+* [Added] Support higher query granularity. See [#2017](https://github.com/DataDog/integrations-core/pull/2017).
+* [Added] Add ability to support (via configuration flag) the newer ADO provider. See [#1673](https://github.com/DataDog/integrations-core/pull/1673).
+* [Fixed] Stop leaking db password when a connection is not in the pool. See [#2031](https://github.com/DataDog/integrations-core/pull/2031).
+* [Fixed] Bump pyro4 and serpent dependencies. See [#2007](https://github.com/DataDog/integrations-core/pull/2007).
+* [Fixed] Fix for case sensitivity in the `proc_type_mapping` dict.. See [#1860](https://github.com/DataDog/integrations-core/pull/1860).
+* [Fixed] Add data files to the wheel package. See [#1727](https://github.com/DataDog/integrations-core/pull/1727).
+
+## 1.5.0 / 2018-06-20
+
+* [Added] support object_name metric identifiers. See [#1679](https://github.com/DataDog/integrations-core/pull/1679).
+
+## 1.4.0 / 2018-05-11
+
+* [FEATURE] Add custom tag support for service checks.
+
+## 1.3.0 / 2018-02-13
+
+* [IMPROVEMENT] Allow custom connection string to connect. See [#1068][].
+
+## 1.2.1 / 2018-01-10
+
+* [BUGFIX] Allows metric collection from all instances in custom query. See [#959][].
+* [BUGFIX] Repair reporting of stats from sys.dm_os_wait_stats. See [#975][].
+
+## 1.2.0 / 2017-10-10
 
 * [FEATURE] single bulk query of all of metrics, then filter locally. See [#573][].
 
-
-1.1.0 / 2017-07-18
-==================
-
-### Changes
+## 1.1.0 / 2017-07-18
 
 * [FEATURE] Allow calling custom proc to return metrics, and improve transaction handling. See [#357][] and [#456][], thanks [@rlaveycal][]
 * [SANITY] Fix yaml example file spacing. See [#342][], thanks [@themsquared][]
 
-
-1.0.0 / 2017-03-22
-==================
-
-### Changes
+## 1.0.0 / 2017-03-22
 
 * [FEATURE] adds sqlserver integration.
 
@@ -29,5 +44,8 @@
 [#357]: https://github.com/DataDog/integrations-core/issues/357
 [#456]: https://github.com/DataDog/integrations-core/issues/456
 [#573]: https://github.com/DataDog/integrations-core/issues/573
+[#959]: https://github.com/DataDog/integrations-core/issues/959
+[#975]: https://github.com/DataDog/integrations-core/pull/975
+[#1068]: https://github.com/DataDog/integrations-core/pull/1065
 [@rlaveycal]: https://github.com/rlaveycal
 [@themsquared]: https://github.com/themsquared

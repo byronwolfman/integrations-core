@@ -1,30 +1,30 @@
 # CHANGELOG - snmp
 
-1.3.0 / 2017-10-10
-==================
+## 1.4.1 / 2018-09-04
 
-### Changes
+* [Fixed] Add data files to the wheel package. See [#1727](https://github.com/DataDog/integrations-core/pull/1727).
+
+## 1.4.0 / 2018-05-11
+
+* [IMPROVEMENT] Enhance error handling when metrics aren't defined or device cannot be reached. See [#1406][]
+
+## 1.3.1 / 2018-02-13
+
+* [BUGFIX] Fix warning service check reporting. See [#1041][]
+
+## 1.3.0 / 2017-10-10
 
 * [FEATURE] Add support for SNMPv3 Contexts. See [#723][]
 
-1.2.0 / 2017-07-18
-==================
-
-### Changes
+## 1.2.0 / 2017-07-18
 
 * [IMPROVEMENT] Drop dependency on pycrypto. See [#426][]
 
-1.1.0 / 2017-04-24
-==================
-
-### Changes
+## 1.1.0 / 2017-04-24
 
 * [FEATURE] Add individual metric tagging to OID and MIB Non-tabular data. See [#248][]
 
-1.0.0 / 2017-03-22
-==================
-
-### Changes
+## 1.0.0 / 2017-03-22
 
 * [FEATURE] adds snmp integration.
 
@@ -32,3 +32,5 @@
 [#248]: https://github.com/DataDog/integrations-core/issues/248
 [#426]: https://github.com/DataDog/integrations-core/issues/426
 [#723]: https://github.com/DataDog/integrations-core/issues/723
+[#1041]: https://github.com/DataDog/integrations-core/issues/1041
+[#1406]: https://github.com/DataDog/integrations-core/issues/1406

@@ -1,5 +1,7 @@
 # Agent Check: system cores
 
+![System Core][8]
+
 ## Overview
 
 This check collects the number of CPU cores on a host and CPU times (i.e. system, user, idle, etc).
@@ -7,59 +9,48 @@ This check collects the number of CPU cores on a host and CPU times (i.e. system
 ## Setup
 ### Installation
 
-The system_core check is packaged with the Agent, so simply [install the Agent](https://app.datadoghq.com/account/settings#agent) on any host.
+The system_core check is included in the [Datadog Agent][1] package, so you don't need to install anything else on your server.
 
 ### Configuration
 
-Create a file `system_core.yaml` in the Agent's `conf.d` directory. See the [sample system_core.yaml](https://github.com/DataDog/integrations-core/blob/master/system_core/conf.yaml.example) for all available configuration options:
+1. Edit the `system_core.d/conf.yaml` file in the `conf.d/` folder at the root of your [Agent's configuration directory][9]. See the [sample system_core.d/conf.yaml][2] for all available configuration options:
 
-```
-init_config:
+    ```
+    init_config:
 
-instances:
-  - foo: bar
-```
+    instances:
+      - foo: bar
+    ```
 
-The Agent just needs one item in `instances` in order to enable the check. The content of the item doesn't matter.
+    The Agent just needs one item in `instances` in order to enable the check. The content of the item doesn't matter.
 
-Restart the Agent to enable the check.
+2. [Restart the Agent][3] to enable the check.
 
 ### Validation
 
-[Run the Agent's `info` subcommand](https://help.datadoghq.com/hc/en-us/articles/203764635-Agent-Status-and-Information) and look for `system_core` under the Checks section:
-
-```
-  Checks
-  ======
-    [...]
-
-    system_core
-    -------
-      - instance #0 [OK]
-      - Collected 5 metrics, 0 events & 0 service checks
-
-    [...]
-```
-
-## Compatibility
-
-The system_core check is compatible with all major platforms.
+[Run the Agent's `status` subcommand][4] and look for `system_core` under the Checks section.
 
 ## Data Collected
 ### Metrics
 
-See [metadata.csv](https://github.com/DataDog/integrations-core/blob/master/system_core/metadata.csv) for a list of metrics provided by this check.
+See [metadata.csv][5] for a list of metrics provided by this check.
 
 Depending on the platform, the check may collect other CPU time metrics, e.g. `system.core.interrupt` on Windows, `system.core.iowait` on Linux, etc.
 
 ### Events
-The System Core check does not include any event at this time.
+The System Core check does not include any events at this time.
 
 ### Service Checks
-The System Core check does not include any service check at this time.
+The System Core check does not include any service checks at this time.
 
 ## Troubleshooting
-Need help? Contact [Datadog Support](http://docs.datadoghq.com/help/).
+Need help? Contact [Datadog Support][6].
 
-## Further Reading
-Learn more about infrastructure monitoring and all our integrations on [our blog](https://www.datadoghq.com/blog/)
+[1]: https://app.datadoghq.com/account/settings#agent
+[2]: https://github.com/DataDog/integrations-core/blob/master/system_core/datadog_checks/system_core/data/conf.yaml.example
+[3]: https://docs.datadoghq.com/agent/faq/agent-commands/#start-stop-restart-the-agent
+[4]: https://docs.datadoghq.com/agent/faq/agent-commands/#agent-status-and-information
+[5]: https://github.com/DataDog/integrations-core/blob/master/system_core/metadata.csv
+[6]: https://docs.datadoghq.com/help/
+[8]: https://raw.githubusercontent.com/DataDog/integrations-core/master/system_core/images/syscoredash.png
+[9]: https://docs.datadoghq.com/agent/faq/agent-configuration-files/#agent-configuration-directory

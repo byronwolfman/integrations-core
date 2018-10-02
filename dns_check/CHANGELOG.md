@@ -1,30 +1,26 @@
 # CHANGELOG - dns_check
 
-1.1.0 / 2017-10-10
-==================
+## 1.1.2 / 2018-09-04
 
-### Changes
+* [Fixed] Add data files to the wheel package. See [#1727](https://github.com/DataDog/integrations-core/pull/1727).
+
+## 1.1.1 / 2018-06-13
+
+* [Fixed] Fix parsing of requirements file so that `dnspython` is listed as a req. See [#1603](https://github.com/DataDog/integrations-core/pull/1603).
+
+## 1.1.0 / 2017-10-10
 
 * [FEATURE] Adds ability to specify a custom port for your nameserver. See [#756][]
 
-1.0.2 / 2017-07-18
-==================
-
-### Changes
+## 1.0.2 / 2017-07-18
 
 * [SANITY] Import `Platform` helper from `utils.platform` instead of deprecated `util`. See [#484][]
 
-1.0.1 / 2017-04-24
-==================
-
-### Changes
+## 1.0.1 / 2017-04-24
 
 * [BUGFIX] use time.clock under windows. See [#330][]
 
-1.0.0 / 2017-03-22
-==================
-
-### Changes
+## 1.0.0 / 2017-03-22
 
 * [FEATURE] adds dns_check integration.
 

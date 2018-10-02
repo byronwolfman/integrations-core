@@ -1,0 +1,20 @@
+# See https://help.github.com/articles/about-codeowners/ for syntax
+# Rules are matched bottom-to-top, so one team can own subdirectories
+# and another the rest of the directory.
+
+# All your base
+*                  @DataDog/agent-integrations
+
+# Documentation
+/docs/             @DataDog/baklava @DataDog/agent-integrations
+*.md               @DataDog/baklava @DataDog/agent-integrations                          
+manifest.json      @DataDog/baklava @DataDog/agent-integrations
+
+# Container monitoring
+/docker_daemon/    @DataDog/kenafeh @DataDog/agent-integrations
+/ecs_fargate/      @DataDog/kenafeh @DataDog/agent-integrations
+/kube_dns/         @DataDog/kenafeh @DataDog/agent-integrations
+/kube_proxy/       @DataDog/kenafeh @DataDog/agent-integrations
+/kubelet/          @DataDog/kenafeh @DataDog/agent-integrations
+/kubernetes/       @DataDog/kenafeh @DataDog/agent-integrations
+/kubernetes_state/ @DataDog/kenafeh @DataDog/agent-integrations

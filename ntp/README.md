@@ -8,14 +8,20 @@ The Network Time Protocol (NTP) integration is enabled by default and reports th
 * Metric delays
 * Gaps in graphs of metrics
 
+Default NTP servers reached:
+
+* `1.datadog.pool.ntp.org`
+* `2.datadog.pool.ntp.org`
+* `3.datadog.pool.ntp.org`
+
 ## Setup
 ### Installation
 
-The NTP check is packaged with the Agent, so simply [install the Agent](https://app.datadoghq.com/account/settings#agent) wherever you'd like to run the check. If you need the newest version of the check, install the `dd-check-ntp` package.
+The NTP check is included in the [Datadog Agent][1] package, so you don't need to install anything else on your servers.
 
 ### Configuration
 
-The Agent enables the NTP check by default, but if you want to configure the check yourself, create a file `ntp.yaml` in the Agent's `conf.d` directory. See the [sample ntp.yaml](https://github.com/DataDog/integrations-core/blob/master/ntp/conf.yaml.default) for all available configuration options:
+The Agent enables the NTP check by default, but if you want to configure the check yourself, edit the file `ntp.d/conf.yaml` in the `conf.d/` folder at the root of your [Agent's configuration directory][7]. See the [sample ntp.d/conf.yaml][2] for all available configuration options:
 
 ```
 init_config:
@@ -35,35 +41,18 @@ Configuration Options:
 * `version` (Optional) - ntp version
 * `timeout` (Optional) - Response timeout
 
-[Restart the Agent](https://help.datadoghq.com/hc/en-us/articles/203764515-Start-Stop-Restart-the-Datadog-Agent) to effect any configuration changes.
+[Restart the Agent][3] to effect any configuration changes.
 
 ### Validation
 
-[Run the Agent's `info` subcommand](https://help.datadoghq.com/hc/en-us/articles/203764635-Agent-Status-and-Information) and look for `ntp` under the Checks section:
-
-```
-  Checks
-  ======
-    [...]
-
-    ntp
-    -------
-      - instance #0 [OK]
-      - Collected 1 metrics, 0 events & 0 service checks
-
-    [...]
-```
-
-### Compatibility
-
-The NTP check is compatible with all major platforms.
+[Run the Agent's `status` subcommand][4] and look for `ntp` under the Checks section.
 
 ## Data Collected
 ### Metrics
-See [metadata.csv](https://github.com/DataDog/integrations-core/blob/master/ntp/metadata.csv) for a list of metrics provided by this check.
+See [metadata.csv][5] for a list of metrics provided by this check.
 
 ### Events
-The NTP check does not include any event at this time.
+The NTP check does not include any events at this time.
 
 ### Service Checks
 
@@ -72,7 +61,12 @@ The NTP check does not include any event at this time.
 Returns CRITICAL if the NTP offset is greater than the threshold specified in `ntp.yaml`, otherwise OK.
 
 ## Troubleshooting
-Need help? Contact [Datadog Support](http://docs.datadoghq.com/help/).
+Need help? Contact [Datadog Support][6].
 
-## Further Reading
-Learn more about infrastructure monitoring and all our integrations on [our blog](https://www.datadoghq.com/blog/)
+[1]: https://app.datadoghq.com/account/settings#agent
+[2]: https://github.com/DataDog/integrations-core/blob/master/ntp/datadog_checks/ntp/data/conf.yaml.default
+[3]: https://docs.datadoghq.com/agent/faq/agent-commands/#start-stop-restart-the-agent
+[4]: https://docs.datadoghq.com/agent/faq/agent-commands/#agent-status-and-information
+[5]: https://github.com/DataDog/integrations-core/blob/master/ntp/metadata.csv
+[6]: https://docs.datadoghq.com/help/
+[7]: https://docs.datadoghq.com/agent/faq/agent-configuration-files/#agent-configuration-directory

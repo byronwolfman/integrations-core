@@ -1,46 +1,73 @@
 # CHANGELOG - postgres
 
-1.2.0 / Unreleased
-==================
+## 2.2.2 / 2018-09-11
 
-### Changes
+* [Fixed] Fix version detection for Postgres v10+. See [#2208](https://github.com/DataDog/integrations-core/pull/2208).
+
+## 2.2.1 / 2018-09-06
+
+* [Fixed]  Gracefully handle errors when performing custom_queries. See [#2184](https://github.com/DataDog/integrations-core/pull/2184).
+* [Fixed] Gracefully handle failed version regex match. See [#2178](https://github.com/DataDog/integrations-core/pull/2178).
+
+## 2.2.0 / 2018-09-04
+
+* [Added] Add number of "idle in transaction" transactions and open transactions. See [#2118](https://github.com/DataDog/integrations-core/pull/2118).
+* [Added] Implement custom_queries and start deprecating custom_metrics. See [#2043](https://github.com/DataDog/integrations-core/pull/2043).
+* [Fixed] Fix Postgres version parsing for beta versions. See [#2064](https://github.com/DataDog/integrations-core/pull/2064).
+* [Added] Re-enable instance tags for server metrics on Agent version 6. See [#2049](https://github.com/DataDog/integrations-core/pull/2049).
+* [Added] Rename dependency psycopg2 to pyscopg2-binary. See [#1842](https://github.com/DataDog/integrations-core/pull/1842).
+* [Added] Correcting duplicate metric name, add index_rows_fetched. See [#1762](https://github.com/DataDog/integrations-core/pull/1762).
+* [Fixed] Add data files to the wheel package. See [#1727](https://github.com/DataDog/integrations-core/pull/1727).
+
+## 2.1.3 / 2018-06-20
+
+* [Fixed] Fixed postgres verification script. See [#1764](https://github.com/DataDog/integrations-core/pull/1764).
+
+## 2.1.2 / 2018-06-07
+
+* [Fixed] Fix function metrics tagging issue for no-args functions. See [#1452](https://github.com/DataDog/integrations-core/pull/1452). Thanks [zorgz](https://github.com/zorgz).
+* [Security] Update psycopg2 for security fixes. See [#1538](https://github.com/DataDog/integrations-core/pull/1538).
+
+## 2.1.1 / 2018-05-11
+
+* [BUGFIX] Adding db rollback when transaction fails in postgres metrics collection. See[#1193][].
+
+## 2.1.0 / 2018-03-07
+
+* [BUGFIX] Adding support for postgres 10. See [#1172][].
+
+## 2.0.0 / 2018-02-13
+
+* [DOC] Adding configuration for log collection in `conf.yaml`
+* [DEPRECATING] Starting with agent6 the postgres check no longer tag server wide metrics with instance tags. See [#1073][]
+
+## 1.2.1 / 2018-02-13
+
+* [BUGFIX] Adding instance tags to service check See [#1042][]
+
+## 1.2.0 / 2017-11-21
 
 * [IMPROVEMENT] Adding an option to include the default 'postgres' database when gathering stats [#740][]
 * [BUGFIX] Allows `schema` as tag for custom metrics when no schema relations have been defined See[#776][]
 
-1.1.0 / 2017-08-28
-==================
-
-### Changes
+## 1.1.0 / 2017-08-28
 
 * [IMPROVEMENT] Deprecating "postgres.replication_delay_bytes" in favor of "postgresql.replication_delay_bytes". See[#639][] and [#699][], thanks to [@Erouan50][]
 * [MINOR] Allow specifying postgres port as string. See [#607][], thanks [@infothrill][]
 
-1.0.3 / 2017-07-18
-==================
-
-### Changes
+## 1.0.3 / 2017-07-18
 
 * [FEATURE] Collect pg_stat_archiver stats in PG>=9.4.
 
-1.0.2 / 2017-06-05
-==================
-
-### Changes
+## 1.0.2 / 2017-06-05
 
 * [IMPROVEMENT] Provide a meaningful error when custom metrics are misconfigured. See [#446][]
 
-1.0.1 / 2017-03-22
-==================
-
-### Changes
+## 1.0.1 / 2017-03-22
 
 * [DEPENDENCY] bump psycopg2 to 2.7.1. See [#295][].
 
-1.0.0 / 2017-03-22
-==================
-
-### Changes
+## 1.0.0 / 2017-03-22
 
 * [FEATURE] adds postgres integration.
 
@@ -49,9 +76,12 @@
 [#446]: https://github.com/DataDog/integrations-core/issues/446
 [#607]: https://github.com/DataDog/integrations-core/issues/607
 [#639]: https://github.com/DataDog/integrations-core/issues/639
+[#689]: https://github.com/DataDog/integrations-core/issues/689
 [#699]: https://github.com/DataDog/integrations-core/issues/699
-[#689]: https://github.com/Erouan50/integrations-core/issues/689
-[#740]: https://github.com/DataDog/integrations-core/pull/740
+[#740]: https://github.com/DataDog/integrations-core/issues/740
 [#776]: https://github.com/DataDog/integrations-core/issues/776
+[#1042]: https://github.com/DataDog/integrations-core/issues/1042
+[#1073]: https://github.com/DataDog/integrations-core/issues/1073
+[#1172]: https://github.com/DataDog/integrations-core/issues/1172
 [@Erouan50]: https://github.com/Erouan50
 [@infothrill]: https://github.com/infothrill

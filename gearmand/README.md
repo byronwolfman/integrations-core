@@ -11,50 +11,34 @@ Collect Gearman metrics to:
 ## Setup
 ### Installation
 
-The Gearman check is packaged with the Agent, so simply [install the Agent](https://app.datadoghq.com/account/settings#agent) on your Gearman job servers.
+The Gearman check is included in the [Datadog Agent][1] package, so you don't need to install anything else on your Gearman job servers.
 
 ### Configuration
 
-Create a file `gearmand.yaml` in the Agent's `conf.d` directory. See the [sample gearmand.yaml](https://github.com/DataDog/integrations-core/blob/master/gearmand/conf.yaml.example) for all available configuration options:
 
-```
-init_config:
+1. Edit the `gearmand.d/conf.yaml` file, in the `conf.d/` folder at the root of your [Agent's configuration directory][7] to start collecting your Gearman performance data.
+    See the [sample gearmand.d/conf.yaml][2] for all available configuration options.
+    ```yaml
+    init_config:
 
-instances:
-  - server: localhost
-    port: 4730
-```
+    instances:
+        - server: localhost
+          port: 4730
+    ```
 
-Restart the Agent to begin sending Gearman metrics to Datadog.
+2. [Restart the Agent][3]
 
 ### Validation
 
-[Run the Agent's `info` subcommand](https://help.datadoghq.com/hc/en-us/articles/203764635-Agent-Status-and-Information) and look for `gearmand` under the Checks section:
-
-```
-  Checks
-  ======
-    [...]
-
-    gearmand
-    -------
-      - instance #0 [OK]
-      - Collected 26 metrics, 0 events & 1 service check
-
-    [...]
-```
-
-## Compatibility
-
-The gearmand check is compatible with all major platforms.
+[Run the Agent's `status` subcommand][4] and look for `gearmand` under the Checks section.
 
 ## Data Collected
 ### Metrics
 
-See [metadata.csv](https://github.com/DataDog/integrations-core/blob/master/gearmand/metadata.csv) for a list of metrics provided by this integration.
+See [metadata.csv][5] for a list of metrics provided by this integration.
 
 ### Events
-The Gearmand check does not include any event at this time.
+The Gearmand check does not include any events at this time.
 
 ### Service Checks
 
@@ -63,7 +47,12 @@ The Gearmand check does not include any event at this time.
 Returns `Critical` if the Agent cannot connect to Gearman to collect metrics.
 
 ## Troubleshooting
-Need help? Contact [Datadog Support](http://docs.datadoghq.com/help/).
+Need help? Contact [Datadog Support][6].
 
-## Further Reading
-Learn more about infrastructure monitoring and all our integrations on [our blog](https://www.datadoghq.com/blog/)
+[1]: https://app.datadoghq.com/account/settings#agent
+[2]: https://github.com/DataDog/integrations-core/blob/master/gearmand/datadog_checks/gearmand/data/conf.yaml.example
+[3]: https://docs.datadoghq.com/agent/faq/agent-commands/#start-stop-restart-the-agent
+[4]: https://docs.datadoghq.com/agent/faq/agent-commands/#agent-status-and-information
+[5]: https://github.com/DataDog/integrations-core/blob/master/gearmand/metadata.csv
+[6]: https://docs.datadoghq.com/help/
+[7]: https://docs.datadoghq.com/agent/faq/agent-configuration-files/#agent-configuration-directory

@@ -1,17 +1,19 @@
 # CHANGELOG - agent_metrics
 
-1.0.1 / 2017-07-18
-==================
+## 1.1.1 / 2018-09-04
 
-### Changes
+* [Fixed] Moves Agent Metrics to Pytest. See [#2059](https://github.com/DataDog/integrations-core/pull/2059).
+* [Fixed] Add data files to the wheel package. See [#1727](https://github.com/DataDog/integrations-core/pull/1727).
+
+## 1.1.0 / 2018-03-23
+
+* [FEATURE] Add custom tag support.
+
+## 1.0.1 / 2017-07-18
 
 * [IMPROVEMENT] Remove usage of `metric_types.MetricTypes`. See [#474][]
 
-
-1.0.0 / 2017-03-22
-==================
-
-### Changes
+## 1.0.0 / 2017-03-22
 
 * [FEATURE] adds agent_metrics integration.
 

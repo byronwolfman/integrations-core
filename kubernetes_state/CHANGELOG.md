@@ -1,41 +1,76 @@
 # CHANGELOG - kubernetes_state
-1.3.1 / 2017-10-12
-==================
-* [] Adding HPA metrics
 
-1.4.0 / Unreleased
-==================
-### Changes
+## 3.0.0 / 2018-09-04
+
+* [Changed] Update kubernetes_state to use the new OpenMetricsBaseCheck. See [#1983](https://github.com/DataDog/integrations-core/pull/1983).
+* [Added] Add cluster-name suffix to node-names in kubernetes state. See [#2069](https://github.com/DataDog/integrations-core/pull/2069).
+* [Added] Limit Prometheus/OpenMetrics checks to 2000 metrics per run by default. See [#2093](https://github.com/DataDog/integrations-core/pull/2093).
+* [Added] Add `pod:` tags to kubernetes_state status reason metrics. See [#1884](https://github.com/DataDog/integrations-core/pull/1884).
+* [Deprecated] [KSM] Deprecate sending pod phase service checks. See [#2029](https://github.com/DataDog/integrations-core/pull/2029).
+* [Added] Add kubernetes persistentvolume metrics. See [#1932](https://github.com/DataDog/integrations-core/pull/1932). Thanks [Devatoria](https://github.com/Devatoria).
+* [Added] Map kube_endpoint metrics. See [#2001](https://github.com/DataDog/integrations-core/pull/2001). Thanks [mariuscoto](https://github.com/mariuscoto).
+* [Fixed] Lower case reasons before matching container.status_report.count.* metrics. See [#1949](https://github.com/DataDog/integrations-core/pull/1949).
+* [Fixed] Submit k_state.nodes.by_condition as gauge instead of counter. See [#1840](https://github.com/DataDog/integrations-core/pull/1840).
+* [Changed] Add sister gauge metrics to kubernetes_state pod service checks. See [#1578](https://github.com/DataDog/integrations-core/pull/1578). Thanks [mwhittington21](https://github.com/mwhittington21).
+* [Changed] kubernetes_state: plumb more container waiting reasons. See [#1763](https://github.com/DataDog/integrations-core/pull/1763). Thanks [stevvooe](https://github.com/stevvooe).
+* [Added] Make HTTP request timeout configurable in prometheus checks. See [#1790](https://github.com/DataDog/integrations-core/pull/1790).
+
+## 2.7.0 / 2018-06-26
+
+* [Added] Add an option to disable hostname override. See [#1800](https://github.com/DataDog/integrations-core/pull/1800).
+* [Changed] Add data files to the wheel package. See [#1727](https://github.com/DataDog/integrations-core/pull/1727).
+
+## 2.6.0 / 2018-06-13
+
+* [Added] Package `auto_conf.yaml` for appropriate integrations. See [#1664](https://github.com/DataDog/integrations-core/pull/1664).
+
+## 2.5.0 / 2018-05-11
+
+* [BUGFIX] [Fix the chosen port](https://github.com/DataDog/datadog-agent/issues/1523) in recent KSM versions exposing multiple ports
+* [FEATURE] Add custom tag support.
+
+## 2.4.0 / 2018-03-23
+
+* [IMPROVEMENT] Add kubernetes_state.nodes.by_condition count metric [#1277][]
+
+## 2.3.0 / 2018-02-28
+
+* [BUGFIX] Fix fetching kubernetes_state.container.restarts with kube-state-metrics v1.2.0 [#1137][]
+* [BUGFIX] Fix rows with mismatch columns in metadata.csv [#1195][]
+
+## 2.2.0 / 2018-02-13
+
+* [IMPROVEMENT] Add option in yaml to configure which label from KSM metrics to join over [#1040][]
+* [IMPROVEMENT] Add the node label wherever the pod label is present [#1000][]
+* [IMPROVEMENT] Override hostname with the node label if present [#1000][]
+
+## 2.0.0 / 2018-01-10
+
+* [IMPROVEMENT] Merge kubernetes-state pod.phase.[running|succeeded|pending|failed|unknown] service checks into one actionnable service check. Will be introduced in 5.20 and will change the behavior of the service check. [#874][]
+* [IMPROVEMENT] Adding statefulset metrics. [#936][]
+* [IMPROVEMENT] Bumping protobuf to version 3.5.1. See [#965][]
+
+## 1.4.0 / 2017-11-21
 
 * [UPDATE] Update auto_conf template to support agent 6 and 5.20+. See [#860][]
+* [FEATURE] Adding HPA metrics. See [#801][]
+* [FEATURE] Add metrics for GPU, PVC, CronJobs and other added in kubernetes_state 1.1.0. See [#853][]
 
-1.3.0 / 2017-08-28
-==================
-
-### Changes
+## 1.3.0 / 2017-08-28
 
 * [FEATURE] Support for StatefulSet metrics. See [#561][]
 * [FEATURE] Support tag renaming via the labels_mapper option. See [#651][]
 * [FEATURE] Add basic Job metrics. See [#686][] and [#696][]
 
-1.2.0 / 2017-07-18
-==================
-
-### Changes
+## 1.2.0 / 2017-07-18
 
 * [FEATURE] Port to PrometheusCheck class and support for new 0.5.0 metrics
 
-1.1.0 / 2017-06-05
-==================
-
-### Changes
+## 1.1.0 / 2017-06-05
 
 * [FEATURE] Support more metrics from kube-state-metrics. See [dd-agent-3309](https://github.com/DataDog/dd-agent/pull/3309), [dd-agent-3352](https://github.com/DataDog/dd-agent/pull/3352) and [#343][]
 
-1.0.0 / 2017-02-23
-==================
-
-### Changes
+## 1.0.0 / 2017-02-23
 
 * [FEATURE] adds Kubernetes State integration.
 
@@ -45,3 +80,12 @@
 [#651]: https://github.com/DataDog/integrations-core/issues/651
 [#686]: https://github.com/DataDog/integrations-core/issues/686
 [#696]: https://github.com/DataDog/integrations-core/issues/696
+[#801]: https://github.com/DataDog/integrations-core/issues/801
+[#853]: https://github.com/DataDog/integrations-core/issues/853
+[#860]: https://github.com/DataDog/integrations-core/issues/860
+[#874]: https://github.com/DataDog/integrations-core/issues/874
+[#936]: https://github.com/DataDog/integrations-core/issues/936
+[#965]: https://github.com/DataDog/integrations-core/issues/965
+[#1000]: https://github.com/DataDog/integrations-core/issues/1000
+[#1040]: https://github.com/DataDog/integrations-core/issues/1040
+[#1137]: https://github.com/DataDog/integrations-core/issues/1137

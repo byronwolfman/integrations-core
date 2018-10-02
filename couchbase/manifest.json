@@ -1,9 +1,18 @@
 {
+  "categories": [
+    "data store"
+  ],
+  "creates_events": false,
+  "display_name": "Couchbase",
+  "guid": "ba7ce7de-4fcb-4418-8c90-329baa6a5d59",
+  "is_public": true,
   "maintainer": "help@datadoghq.com",
-  "manifest_version": "0.1.1",
-  "max_agent_version": "6.0.0",
-  "min_agent_version": "5.20.0",
+  "manifest_version": "1.0.0",
+  "metric_prefix": "couchbase.",
+  "metric_to_check": "couchbase.ram.used",
   "name": "couchbase",
+  "process_signatures": ["beam.smp couchbase"],
+  "public_title": "Datadog-CouchBase Integration",
   "short_description": "Track and graph your Couchbase activity and performance metrics.",
   "support": "core",
   "supported_os": [
@@ -11,12 +20,5 @@
     "mac_os",
     "windows"
   ],
-  "version": "1.2.0",
-  "guid": "ba7ce7de-4fcb-4418-8c90-329baa6a5d59",
-  "public_title": "Datadog-CouchBase Integration",
-  "categories":["data store"],
-  "type":"check",
-  "doc_link": "https://docs.datadoghq.com/integrations/couchbase/",
-  "is_public": true,
-  "has_logo": true
+  "type": "check"
 }

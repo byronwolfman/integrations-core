@@ -1,16 +1,19 @@
 # CHANGELOG - gunicorn
 
-1.1.0 / 2017-05-23
-==================
+## 1.2.1 / 2018-09-04
 
-### Changes
+* [Fixed] Gunicorn intergration - fix problem with multiple master processes. See [#1839](https://github.com/DataDog/integrations-core/pull/1839). Thanks [mrmm](https://github.com/mrmm).
+* [Fixed] Add data files to the wheel package. See [#1727](https://github.com/DataDog/integrations-core/pull/1727).
+
+## 1.2.0 / 2018-03-23
+
+* [FEATURE] add custom tag support.
+
+## 1.1.0 / 2017-05-23
 
 * [BUGFIX] tag all the metrics by app name, not only the service check. See [#414]
 
-1.0.0 / 2017-03-22
-==================
-
-### Changes
+## 1.0.0 / 2017-03-22
 
 * [FEATURE] adds gunicorn integration.
 

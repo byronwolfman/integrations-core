@@ -1,37 +1,41 @@
 # Docker_daemon Integration
 
+![Docker default dashboard][27]
+
 ## Overview
 
-Get metrics from docker_daemon service in real time to:
+Configure this Agent check to get metrics from docker_daemon service in real time to:
 
 * Visualize and monitor docker_daemon states
 * Be notified about docker_daemon failovers and events.
 
+**NOTE**: The Docker check has been rewritten in Go for Agent v6 to take advantage of the new internal architecture. Hence it is still maintained but **only works with Agents prior to major version 6**.
+
+**To learn how to use the Docker_daemon Integration with the Agent major version 6 [Consult our dedicated agent v6 setup](#agent-v6).**
+
 ## Setup
 ### Installation
 
-To collect Docker metrics about all your containers, you will run **one** Datadog Agent on every host. There are two ways to run the Agent: directly on each host, or within a [docker-dd-agent container](https://github.com/DataDog/docker-dd-agent). We recommend the latter.
+To collect Docker metrics about all your containers, run **one** Datadog Agent on every host. There are two ways to run the Agent: directly on each host, or within a [docker-dd-agent container][1]. We recommend the latter.  
 
-Whichever you choose, your hosts need to have cgroup memory management enabled for the Docker check to succeed. See the [docker-dd-agent repository](https://github.com/DataDog/docker-dd-agent#cgroups) for how to enable it.
+Whichever you choose, your hosts need to have cgroup memory management enabled for the Docker check to succeed. See the [docker-dd-agent repository][2] for how to enable it.
 
 #### Host Installation
 
 1. Ensure Docker is running on the host.
-2. Install the Agent as described in [the Agent installation instructions](https://app.datadoghq.com/account/settings#agent) for your host OS.
-3. Enable [the Docker integration tile in the application](https://app.datadoghq.com/account/settings#integrations/docker).
+2. Install the Agent as described in [the Agent installation instructions][3] for your host OS.
+3. Enable [the Docker integration tile in the application][4].
 4. Add the Agent user to the docker group: `usermod -a -G docker dd-agent`
-5. Create a `docker_daemon.yaml` file by copying [the example file in the agent conf.d directory](https://github.com/DataDog/integrations-core/blob/master/docker_daemon/conf.yaml.example). If you have a standard install of Docker on your host, there shouldn't be anything you need to change to get the integration to work.
+5. Create a `docker_daemon.yaml` file by copying [the example file in the agent conf.d directory][5]. If you have a standard install of Docker on your host, there shouldn't be anything you need to change to get the integration to work.
 6. To enable other integrations, use `docker ps` to identify the ports used by the corresponding applications.
-    {{< img src="integrations/docker/integrations-docker-dockerps.png" >}}
-
-{{< insert-example-links conf="docker_daemon" check="docker_daemon" >}}
+    ![Docker ps command][28]
 
 **Note:** docker_daemon has replaced the older docker integration.
 
 #### Container Installation
 
 1. Ensure Docker is running on the host.
-2. As per [the docker container installation instructions](https://app.datadoghq.com/account/settings#agent/docker), run:
+2. As per [the docker container installation instructions][6], run:
 
         docker run -d --name dd-agent \
           -v /var/run/docker.sock:/var/run/docker.sock:ro \
@@ -46,13 +50,15 @@ Note that in the command above, you are able to pass your API key to the Datadog
 |---|---|
 | API_KEY | Sets your Datadog API key. |
 | DD_HOSTNAME | Sets the hostname in the Agent container's datadog.conf file. If this variable is not set, the Agent container will default to using the `Name` field (as reported by the `docker info` command) as the Agent container hostname. |
-| DD_URL | Sets the Datadog intake server URL where the Agent will send data. This is useful when [using an agent as a proxy](https://github.com/DataDog/dd-agent/wiki/Proxy-Configuration#using-the-agent-as-a-proxy). |
+| DD_URL | Sets the Datadog intake server URL where the Agent will send data. This is useful when [using an agent as a proxy][7]. |
 | LOG_LEVEL | Sets logging verbosity (CRITICAL, ERROR, WARNING, INFO, DEBUG). For example, `-e LOG_LEVEL=DEBUG` will set logging to debug mode.
 | TAGS | Sets host tags as a comma delimited string. You can pass both simple tags and key-value tags. For example, `-e TAGS="simple-tag, tag-key:tag-value"`. |
-| EC2_TAGS | Enabling this feature allows the agent to query and capture custom tags set using the EC2 API during startup. To enable, set the value to "yes", for example, `-e EC2_TAGS=yes`. Note that this feature requires an [IAM role](https://github.com/DataDog/dd-agent/wiki/Capturing-EC2-tags-at-startup) associated with the instance. |
-| NON_LOCAL_TRAFFIC | Enabling this feature will allow statsd reporting from any external IP. For example, `-e NON_LOCAL_TRAFFIC=yes`. This can be used to report metrics from other containers or systems. See [network configuration](https://github.com/DataDog/dd-agent/wiki/Network-Traffic-and-Proxy-Configuration) for more details.
-| PROXY_HOST, PROXY_PORT, PROXY_USER, PROXY_PASSWORD | Sets proxy configuration details. For more information, see the [Agent proxy documentation](https://github.com/DataDog/dd-agent/wiki/Proxy-Configuration#using-a-web-proxy-as-proxy) |
-| SD_BACKEND, SD_CONFIG_BACKEND, SD_BACKEND_HOST, SD_BACKEND_PORT, SD_TEMPLATE_DIR, SD_CONSUL_TOKEN | Enables and configures Autodiscovery. For more information, please see the [Autodiscovery guide](/guides/autodiscovery/). |
+| EC2_TAGS | Enabling this feature allows the agent to query and capture custom tags set using the EC2 API during startup. To enable, set the value to "yes", for example, `-e EC2_TAGS=yes`. Note that this feature requires an IAM role associated with the instance. |
+| NON_LOCAL_TRAFFIC | Enabling this feature will allow statsd reporting from any external IP. For example, `-e NON_LOCAL_TRAFFIC=yes`. This can be used to report metrics from other containers or systems. See [network configuration][9] for more details.
+| PROXY_HOST, PROXY_PORT, PROXY_USER, PROXY_PASSWORD | Sets proxy configuration details. For more information, see the [Agent proxy documentation][10] |
+| SD_BACKEND, SD_CONFIG_BACKEND, SD_BACKEND_HOST, SD_BACKEND_PORT, SD_TEMPLATE_DIR, SD_CONSUL_TOKEN | Enables and configures Autodiscovery. For more information, please see the [Autodiscovery guide][11]. |
+
+**Note**: Add `--restart=unless-stopped` if you want your agent to be resistant to restarts.
 
 #### Running the agent container on Amazon Linux
 
@@ -64,12 +70,12 @@ docker run -d --name dd-agent \
   -v /proc/:/host/proc/:ro \
   -v /cgroup/:/host/sys/fs/cgroup:ro \
   -e API_KEY={YOUR API KEY} \
-  datadog/docker-dd-agent:latest
+  datadog/docker-dd-agent:latest
 ```
 
 #### Alpine Linux based container
 
-Our standard Docker image is based on Debian Linux, but as of version 5.7 of the Datadog Agent, we also offer an [Alpine Linux](https://alpinelinux.org/) based image. The Alpine Linux image is considerably smaller in size than the traditional Debian-based image. It also inherits Alpine's security-oriented design.
+Our standard Docker image is based on Debian Linux, but as of version 5.7 of the Datadog Agent, we also offer an [Alpine Linux][12] based image. The Alpine Linux image is considerably smaller in size than the traditional Debian-based image. It also inherits Alpine's security-oriented design.
 
 To use the Alpine Linux image, simply append `-alpine` to the version tag. For example:
 
@@ -79,7 +85,7 @@ docker run -d --name dd-agent \
   -v /proc/:/host/proc/:ro \
   -v /sys/fs/cgroup/:/host/sys/fs/cgroup:ro \
   -e API_KEY={YOUR API KEY} \
-  datadog/docker-dd-agent:latest-alpine
+  datadog/docker-dd-agent:latest-alpine
 ```
 
 #### Image versioning
@@ -91,27 +97,32 @@ For example, the first version of the Docker image that will bundle the Datadog 
 
 #### Custom containers and additional information
 
-For more information about building custom Docker containers with the Datadog Agent, the Alpine Linux based image, versioning, and more, please reference [our `docker-dd-agent` project on Github](https://github.com/DataDog/docker-dd-agent).
+For more information about building custom Docker containers with the Datadog Agent, the Alpine Linux based image, versioning, and more, please reference [our `docker-dd-agent` project on Github][1].
 
 ### Validation
 
-[Run the Agent's `info` subcommand](https://help.datadoghq.com/hc/en-us/articles/203764635-Agent-Status-and-Information) and look for `docker_daemon` under the Checks section:
+[Run the Agent's `status` subcommand][13] and look for `docker_daemon` under the Checks section.
 
-    Checks
-    ======
+## Agent v6 
 
-        docker_daemon
-        -----------
-          - instance #0 [OK]
-          - Collected 39 metrics, 0 events & 7 service checks
+The new docker check is named `docker`. Starting from version 6.0, the Agent won't load the `docker_daemon` check anymore, even if it is still available and maintained for Agent version 5.x. All features are ported on version >6.0 , excepted the following deprecations:
 
-## Compatibility
+  * the `url`, `api_version` and `tags*` options are deprecated, direct use of the [standard docker environment variables][14] is encouraged.
+  * the `ecs_tags`, `performance_tags` and `container_tags` options are deprecated. Every relevant tag is now collected by default.
+  * the `collect_container_count` option to enable the `docker.container.count` metric is not supported. `docker.containers.running` and `.stopped` are to be used.
 
-The docker_daemon check is compatible with all major platforms
+Some options have moved from `docker_daemon.yaml` to the main `datadog.yaml`:
+
+  * `collect_labels_as_tags` has been renamed `docker_labels_as_tags` and now supports high cardinality tags, see the details in `datadog.yaml.example`
+  * `exclude` and `include` lists have been renamed `ac_include` and `ac_exclude`. In order to make filtering consistent accross all components of the agent, we had to drop filtering on arbitrary tags. The only supported filtering tags are `image` (image name) and `name` (container name). Regexp filtering is still available, see `datadog.yaml.example` for examples
+  * `docker_root` option has been split in two options `container_cgroup_root` and `container_proc_root`
+  * `exclude_pause_container` has been added to exclude pause containers on Kubernetes and Openshift (default to true). This will avoid removing them from the exclude list by error
+
+The [`import`][15] command converts the old `docker_daemon.yaml` to the new `docker.yaml`. The command also moves needed settings from `docker_daemon.yaml` to `datadog.yaml`.
 
 ## Data Collected
 ### Metrics
-See [metadata.csv](https://github.com/DataDog/integrations-core/blob/master/docker_daemon/metadata.csv) for a list of metrics provided by this integration.
+See [metadata.csv][16] for a list of metrics provided by this integration.
 
 ### Events
 The events below will be available:
@@ -128,120 +139,68 @@ The events below will be available:
 * Update
 
 ### Service Checks
-The Docker Daemon check does not include any service check at this time.
+**docker.service_up**:
+
+Returns `CRITICAL` if the Agent is unable to collect the list of containers from the Docker daemon.
+Returns `OK` otherwise.
+
+**docker.container_health**:
+
+This Service Check is only available for Agent v5. It Returns `CRITICAL` if a container is unhealthy, `UNKNOWN` if the health is unknown, `OK` otherwise.
+
+**docker.exit**:
+
+Returns `CRITICAL` if a container exited with a non-zero exit code.
+Returns `OK` otherwise.
 
 ## Troubleshooting
-Need help? Contact [Datadog Support](http://docs.datadoghq.com/help/).
+Need help? Contact [Datadog Support][17].
 
 ## Further Reading
 ### Knowledge Base
-#### Compose and the Datadog Agent
 
-[Compose](https://docs.docker.com/compose/overview/) is a Docker tool that simplifies building applications on Docker by allowing you to define, build and run multiple containers as a single application.
+* [Compose and the Datadog Agent][18]
 
-While the Single Container Installation instructions above will get the stock Datadog Agent container running, you will most likely want to enable integrations for other containerized services that are part of your Compose application. To do this, you'll need to combine integration YAML files with the base Datadog Agent image to create your Datadog Agent container. Then you'll need to add your container to the Compose YAML.
-
-##### Example: Monitoring Redis
-
-Let's look at how you would monitor a Redis container using Compose. Our example file structure is:
-
-    |- docker-compose.yml
-    |- datadog
-        |- Dockerfile
-        |- conf.d
-           |-redisdb.yaml
-
-First we'll take a look at the `docker-compose.yml` that describes how our containers work together and sets some of the configuration details for the containers.
-
-```yaml
-version: "2"
-services:
-  # Redis container
-  redis:
-    image: redis
-  # Agent container
-  datadog:
-    build: datadog
-    links:
-     - redis # Ensures datadog container can connect to redis container
-    environment:
-     - API_KEY=__your_datadog_api_key_here__
-    volumes:
-     - /var/run/docker.sock:/var/run/docker.sock
-     - /proc/mounts:/host/proc/mounts:ro
-     - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
-```
-
-In this file, we can see that Compose will run the Docker image `redis` and it will also build and run a `datadog` container. By default it will look for a matching directory called `datadog` and run the `Dockerfile` in that directory.
-
-Our `Dockerfile` simply takes the standard [Datadog docker image](https://hub.docker.com/r/datadog/docker-dd-agent/) and places a copy of the `redisdb.yaml` integration configuration into the appropriate directory:
-
-    FROM datadog/docker-dd-agent
-    ADD conf.d/redisdb.yaml /etc/dd-agent/conf.d/redisdb.yaml
-
-Finally our `redisdb.yaml` is patterned after the [redisdb.yaml.example file](https://github.com/DataDog/integrations-core/blob/master/redisdb/conf.yaml.example) and tells the Datadog Agent to look for Redis on the host named `redis` (defined in our `docker-compose.yaml` above) and the standard Redis port 6379:
-
-    init_config:
-
-    instances:
-      - host: redis
-        port: 6379
-
-For a more complete example, please see our [Docker Compose example project on Github](https://github.com/DataDog/docker-compose-example).
-
-#### DogStatsD and Docker
-
-Datadog has a huge number of [integrations with common applications](/integrations/), but it can also be used to instrument your custom applications. This is typically using one of the many [Datadog libraries](/libraries/).
-
-Libraries that communicate over HTTP using the [Datadog API](/api/) don't require any special configuration with regard to Docker. However, applications using libraries that integrate with DogStatsD or StatsD will need to configure the library to connect to the Agent. Note that each library will handle this configuration differently, so please refer to the individual library's documentation for more details.
-
-After your code is configured you can run your custom application container using [the `--link` option](https://docs.docker.com/engine/reference/run/#/expose-incoming-ports) to create a network connection between your application container and the Datadog Agent container.
-
-##### Example: Monitoring a basic Python application
-
-To start monitoring our application, we first need to run the Datadog container using the [Single Container Installation](#single-container-installation) instructions above. Note that the `docker run` command sets the name of the container to `dd-agent`.
-
-Next, we'll need to instrument our code. Here's a basic Flask-based web application:
-
-```python
-from flask import Flask
-from datadog import initialize, statsd
-
-# Initialize DogStatsD and set the host.
-initialize(statsd_host = 'dd-agent')
-
-app = Flask(__name__)
-
-@app.route('/')
-def hello():
-    # Increment a Datadog counter.
-    statsd.increment('my_webapp.page.views')
-
-    return "Hello World!"
-
-if __name__ == "__main__"
-    app.run()
-```
-
-In our example code above, we set the DogStatsD host to match the Datadog Agent container name, `dd-agent`.
-
-After we build our web application container, we can run it and use the `--link` argument to setup a network connection to the Datadog Agent container:
-
-    docker run -d --name my-web-app \
-      --link dd-agent:dd-agent
-      my-web-app
-
-For another example using DogStatsD, see our [Docker Compose example project on Github](https://github.com/DataDog/docker-compose-example).
+* [DogStatsD and Docker][19]
 
 ### Datadog Blog
 
-Learn more about how to monitor Docker performance metrics thanks to [our series of posts](https://www.datadoghq.com/blog/the-docker-monitoring-problem/). We detail the challenges when monitoring Docker, its key performance metrics, how to collect them, and lastly how the largest TV and radio outlet in the U.S. monitors Docker using Datadog.
+Learn more about how to monitor Docker performance metrics thanks to [our series of posts][20]. We detail the challenges when monitoring Docker, its key performance metrics, how to collect them, and lastly how the largest TV and radio outlet in the U.S. monitors Docker using Datadog.
 
 We've also written several other in-depth blog posts to help you get the most out of Datadog and Docker:
 
-* [How to Monitor Docker Resource Metrics](https://www.datadoghq.com/blog/how-to-monitor-docker-resource-metrics/)
-* [How to Collect Docker Metrics](https://www.datadoghq.com/blog/how-to-collect-docker-metrics/)
-* [8 Surprising Facts about Real Docker Adoption](https://www.datadoghq.com/docker-adoption/)
-* [Monitor Docker on AWS ECS](https://www.datadoghq.com/blog/monitor-docker-on-aws-ecs/)
-* [Dockerize Datadog](https://www.datadoghq.com/blog/docker-performance-datadog/)
-* [Monitor Docker with Datadog](https://www.datadoghq.com/blog/monitor-docker-datadog/)
+* [How to Monitor Docker Resource Metrics][21]
+* [How to Collect Docker Metrics][22]
+* [8 Surprising Facts about Real Docker Adoption][23]
+* [Monitor Docker on AWS ECS][24]
+* [Dockerize Datadog][25]
+* [Monitor Docker with Datadog][26]
+
+
+[1]: https://github.com/DataDog/docker-dd-agent
+[2]: https://github.com/DataDog/docker-dd-agent#cgroups
+[3]: https://app.datadoghq.com/account/settings#agent
+[4]: https://app.datadoghq.com/account/settings#integrations/docker
+[5]: https://github.com/DataDog/integrations-core/blob/master/docker_daemon/datadog_checks/docker_daemon/data/conf.yaml.example
+[6]: https://app.datadoghq.com/account/settings#agent/docker
+[7]: https://github.com/DataDog/dd-agent/wiki/Proxy-Configuration#using-the-agent-as-a-proxy
+[9]: https://github.com/DataDog/dd-agent/wiki/Network-Traffic-and-Proxy-Configuration
+[10]: https://github.com/DataDog/dd-agent/wiki/Proxy-Configuration#using-a-web-proxy-as-proxy
+[11]: https://docs.datadoghq.com/agent/autodiscovery/
+[12]: https://alpinelinux.org/
+[13]: https://docs.datadoghq.com/agent/faq/agent-commands/#agent-status-and-information
+[14]: https://docs.docker.com/engine/reference/commandline/cli/#environment-variables
+[15]: https://docs.datadoghq.com/agent/#cli
+[16]: https://github.com/DataDog/integrations-core/blob/master/docker_daemon/metadata.csv
+[17]: https://docs.datadoghq.com/help/
+[18]: https://docs.datadoghq.com/integrations/faq/compose-and-the-datadog-agent
+[19]: https://docs.datadoghq.com/integrations/faq/dogstatsd-and-docker
+[20]: https://www.datadoghq.com/blog/the-docker-monitoring-problem/
+[21]: https://www.datadoghq.com/blog/how-to-monitor-docker-resource-metrics/
+[22]: https://www.datadoghq.com/blog/how-to-collect-docker-metrics/
+[23]: https://www.datadoghq.com/docker-adoption/
+[24]: https://www.datadoghq.com/blog/monitor-docker-on-aws-ecs/
+[25]: https://www.datadoghq.com/blog/docker-performance-datadog/
+[26]: https://www.datadoghq.com/blog/monitor-docker-datadog/
+[27]: https://raw.githubusercontent.com/DataDog/integrations-core/master/docker_daemon/images/docker.png
+[28]: https://raw.githubusercontent.com/DataDog/integrations-core/master/docker_daemon/images/integrations-docker-dockerps.png

@@ -7,42 +7,36 @@ Collect metrics related to disk usage and IO.
 ## Setup
 ### Installation
 
-The disk check is packaged with the Agent, so simply [install the Agent](https://app.datadoghq.com/account/settings#agent) anywhere you wish to use it.
+The disk check is included in the [Datadog Agent][1] package, so you don't need to install anything else on your server.
 
 ### Configuration
 
-The disk check is enabled by default, and the Agent will collect metrics on all local partitions. If you want to configure the check with custom options, create a file `disk.yaml` in the Agent's `conf.d` directory. See the [sample disk.yaml](https://github.com/DataDog/integrations-core/blob/master/disk/conf.yaml.default) for all available configuration options.
+The disk check is enabled by default, and the Agent collects metrics on all local partitions.
+If you want to configure the check with custom options, Edit the `disk.d/conf.yaml` file, in the `conf.d/` folder at the root of your [Agent's configuration directory][6]. See the [sample disk.d/conf.yaml][2] for all available configuration options.
 
 ### Validation
 
-[Run the Agent's `info` subcommand](https://help.datadoghq.com/hc/en-us/articles/203764635-Agent-Status-and-Information) and look for `disk` under the Checks section:
-
-```
-  Checks
-  ======
-    [...]
-
-    disk
-    -------
-      - instance #0 [OK]
-      - Collected 40 metrics, 0 events & 0 service checks
-
-    [...]
-```
+[Run the Agent's `status` subcommand][3] and look for `disk` under the Checks section.
 
 ## Data Collected
 ### Metrics
 
-See [metadata.csv](https://github.com/DataDog/integrations-core/blob/master/disk/metadata.csv) for a list of metrics provided by this integration.
+See [metadata.csv][4] for a list of metrics provided by this integration.
 
 ### Events
-The Disk check does not include any event at this time.
+The Disk check does not include any events at this time.
 
 ### Service Checks
-The Disk check does not include any service check at this time.
+
+**`disk.service_check_rw`**:
+Returns `CRITICAL` if filesystem is in read-only mode.
 
 ## Troubleshooting
-Need help? Contact [Datadog Support](http://docs.datadoghq.com/help/).
+Need help? Contact [Datadog Support][5].
 
-## Further Reading
-Learn more about infrastructure monitoring and all our integrations on [our blog](https://www.datadoghq.com/blog/)
+[1]: https://app.datadoghq.com/account/settings#agent
+[2]: https://github.com/DataDog/integrations-core/blob/master/disk/datadog_checks/disk/data/conf.yaml.default
+[3]: https://docs.datadoghq.com/agent/faq/agent-commands/#agent-status-and-information
+[4]: https://github.com/DataDog/integrations-core/blob/master/disk/metadata.csv
+[5]: https://docs.datadoghq.com/help/
+[6]: https://docs.datadoghq.com/agent/faq/agent-configuration-files/#agent-configuration-directory

@@ -1,0 +1,2 @@
+datadog-checks-dev
+pyodbc; sys_platform != 'win32'

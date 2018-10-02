@@ -1,72 +1,64 @@
-# Kyototycoon Integration
+# KyotoTycoon Integration
 
 ## Overview
 
-The Agent's Kyototycoon check tracks get, set, and delete operations, and lets you monitor replication lag.
+The Agent's KyotoTycoon check tracks get, set, and delete operations, and lets you monitor replication lag.
 
 ## Setup
 ### Installation
 
-The Kyototycoon check is packaged with the Agent, so simply [install the Agent](https://app.datadoghq.com/account/settings#agent) on your Kyototycoon servers. If you need the newest version of the check, install the `dd-check-kyototycoon` package.
+The KyotoTycoon check is included in the [Datadog Agent][1] package, so you don't need to install anything else on your KyotoTycoon servers.
 
 ### Configuration
 
-Create a file `kyototycoon.yaml` in the Agent's `conf.d` directory. See the [sample kyototycoon.yaml](https://github.com/DataDog/integrations-core/blob/master/kyototycoon/conf.yaml.example) for all available configuration options:
+1. Edit the `kyototycoon.d/conf.yaml` file, in the `conf.d/` folder at the root of your [Agent's configuration directory][8].
+    See the [sample kyototycoon.d/conf.yaml][2] for all available configuration options:
 
-```
-init_config:
+    ```yaml
+    init_config:
 
-instances:
-#  Each instance needs a report URL. 
-#  name, and optionally tags keys. The report URL should
-#  be a URL to the Kyoto Tycoon "report" RPC endpoint.
-#
-#  Complete example:
-#
-- report_url: http://localhost:1978/rpc/report
-#   name: my_kyoto_instance
-#   tags:
-#     foo: bar
-#     baz: bat
-```
+    instances:
+        #  Each instance needs a report URL.
+        #  name, and optionally tags keys. The report URL should
+        #  be a URL to the Kyoto Tycoon "report" RPC endpoint.
+        #
+        #  Complete example:
+        #
+        - report_url: http://localhost:1978/rpc/report
+        #   name: my_kyoto_instance
+        #   tags:
+        #     foo: bar
+        #     baz: bat
+    ```
+
+2. [Restart the Agent][7] to begin sending Kong metrics to Datadog.
+
 
 ### Validation
 
-[Run the Agent's `info` subcommand](https://help.datadoghq.com/hc/en-us/articles/203764635-Agent-Status-and-Information) and look for `kyototycoon` under the Checks section:
-
-```
-  Checks
-  ======
-    [...]
-
-    kyototycoon
-    -------
-      - instance #0 [OK]
-      - Collected 26 metrics, 0 events & 1 service check
-
-    [...]
-```
-
-## Compatibility
-
-The kyototycoon check is compatible with all major platforms.
+[Run the Agent's `status` subcommand][3] and look for `kyototycoon` under the Checks section.
 
 ## Data Collected
 ### Metrics
 
-See [metadata.csv](https://github.com/DataDog/integrations-core/blob/master/kyototycoon/metadata.csv) for a list of metrics provided by this check.
+See [metadata.csv][4] for a list of metrics provided by this check.
 
 ### Events
-The Kyototycoon check does not include any event at this time.
+The KyotoTycoon check does not include any events at this time.
 
 ### Service Checks
 
 `kyototycoon.can_connect`:
 
-Returns CRITICAL if the Agent cannot connect to Kyototycoon to collect metrics, otherwise OK.
+Returns CRITICAL if the Agent cannot connect to KyotoTycoon to collect metrics, otherwise OK.
 
 ## Troubleshooting
-Need help? Contact [Datadog Support](http://docs.datadoghq.com/help/).
+Need help? Contact [Datadog Support][5].
 
-## Further Reading
-Learn more about infrastructure monitoring and all our integrations on [our blog](https://www.datadoghq.com/blog/)
+[1]: https://app.datadoghq.com/account/settings#agent
+[2]: https://github.com/DataDog/integrations-core/blob/master/kyototycoon/datadog_checks/kyototycoon/data/conf.yaml.example
+[3]: https://docs.datadoghq.com/agent/faq/agent-commands/#agent-status-and-information
+[4]: https://github.com/DataDog/integrations-core/blob/master/kyototycoon/metadata.csv
+[5]: https://docs.datadoghq.com/help/
+[7]: https://docs.datadoghq.com/agent/faq/agent-commands/#start-stop-restart-the-agent
+[8]: https://docs.datadoghq.com/agent/faq/agent-configuration-files/#agent-configuration-directory

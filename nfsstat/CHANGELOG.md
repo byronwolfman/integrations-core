@@ -1,9 +1,18 @@
 # CHANGELOG - Nfsstat
 
-0.1.0/ 2017-10-10
-==================
+## 0.2.1 / 2018-09-04
 
-### Changes
+* [Fixed] Add data files to the wheel package. See [#1727](https://github.com/DataDog/integrations-core/pull/1727).
+
+## 0.2.0 / 2018-03-23
+
+* [FEATURE] add custom tag support.
+
+## 0.1.1 / 2018-02-13
+
+* [BUGFIX] makes reports output stats in actual realtime. See [#974][].
+
+## 0.1.0 / 2017-10-10
 
 * [FEATURE] adds nfsstat integration. See [#720][].
 

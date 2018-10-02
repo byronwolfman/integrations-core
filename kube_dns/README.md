@@ -13,11 +13,11 @@ more informations about kube-dns
 ## Setup
 ### Installation
 
-Install the `dd-check-kube_dns` package manually or with your favorite configuration manager
+The Kube-dns check is included in the [Datadog Agent][1] package, so you don't need to install anything else on your servers.
 
 ### Configuration
 
-Edit the `kube_dns.yaml` file to point to your server and port, set the masters to monitor. See the [sample kube_dns.yaml](https://github.com/DataDog/integrations-core/blob/master/kube_dns/conf.yaml.example) for all available configuration options.
+Edit the `kube_dns.d/conf.yaml` file, in the `conf.d/` folder at the root of your [Agent's configuration directory][6], to point to your server and port, set the masters to monitor. See the [sample kube_dns.d/conf.yaml][2] for all available configuration options.
 
 #### Using with service discovery
 
@@ -46,32 +46,24 @@ metadata:
 
 ### Validation
 
-[Run the Agent's `info` subcommand](https://help.datadoghq.com/hc/en-us/articles/203764635-Agent-Status-and-Information) and look for `kube_dns` under the Checks section:
-
-    Checks
-    ======
-
-        kube_dns
-        -----------
-          - instance #0 [OK]
-          - Collected 39 metrics, 0 events & 7 service checks
-
-## Compatibility
-
-The kube_dns check is compatible with all major platforms
+[Run the Agent's `status` subcommand][3] and look for `kube_dns` under the Checks section.
 
 ## Data Collected
 ### Metrics
-See [metadata.csv](https://github.com/DataDog/integrations-core/blob/master/kube_dns/metadata.csv) for a list of metrics provided by this integration.
+See [metadata.csv][4] for a list of metrics provided by this integration.
 
 ### Events
-The Kube-DNS check does not include any event at this time.
+The Kube-DNS check does not include any events at this time.
 
 ### Service Checks
-The Kube-DNS check does not include any service check at this time.
+The Kube-DNS check does not include any service checks at this time.
 
 ## Troubleshooting
-Need help? Contact [Datadog Support](http://docs.datadoghq.com/help/).
+Need help? Contact [Datadog Support][5].
 
-## Further Reading
-Learn more about infrastructure monitoring and all our integrations on [our blog](https://www.datadoghq.com/blog/)
+[1]: https://app.datadoghq.com/account/settings#agent
+[2]: https://github.com/DataDog/integrations-core/blob/master/kube_dns/datadog_checks/kube_dns/data/conf.yaml.example
+[3]: https://docs.datadoghq.com/agent/faq/agent-commands/#agent-status-and-information
+[4]: https://github.com/DataDog/integrations-core/blob/master/kube_dns/metadata.csv
+[5]: https://docs.datadoghq.com/help/
+[6]: https://docs.datadoghq.com/agent/faq/agent-configuration-files/#agent-configuration-directory

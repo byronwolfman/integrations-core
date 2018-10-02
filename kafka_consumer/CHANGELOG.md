@@ -1,42 +1,47 @@
 # CHANGELOG - kafka_consumer
 
-1.2.0 / Unreleased
-==================
+## 1.4.1 / 2018-09-04
 
-### Changes
+* [Fixed] Add data files to the wheel package. See [#1727](https://github.com/DataDog/integrations-core/pull/1727).
 
-* [FEATURE] Support collection of consumer offsets from Kafka, in addition to ZK. See #654
+## 1.4.0 / 2018-06-04
 
-1.1.0 / 2017-10-10
-==================
+* [Changed] Bump to kafka-python 1.4.3. See [#1627](https://github.com/DataDog/integrations-core/pull/1627). Thanks [jeffwidman](https://github.com/jeffwidman).
 
-### Changes
+## 1.3.0 / 2018-03-23
+
+* [FEATURE] Add SSL as a connect option.
+* [FEATURE] Add custom tag support.
+
+## 1.2.2 / 2018-02-13
+
+* [BUGFIX] Check explicitly that node_id is None instead of 0. See [#1022][]
+
+## 1.2.1 / 2017-11-29
+
+* [BUGFIX] Use instance key to retrieve cached kafka_client, See [#904][]
+
+## 1.2.0 / 2017-11-21
+
+* [FEATURE] Support collection of consumer offsets from Kafka, in addition to ZK. See [#654][]
+
+## 1.1.0 / 2017-10-10
 
 * [FEATURE] discovery of groups, topics and partitions. See [#633][] (Thanks [@jeffwidman][])
 * [SANITY] set upper bound on number of contexts. Submit "broker available" metrics. See [#753][]
 * [SANITY] Remove usage of `AgentCheck.read_config` (deprecated method). See [#733][]
 
-1.0.2 / 2017-08-28
-==================
-
-### Changes
+## 1.0.2 / 2017-08-28
 
 * [IMPROVEMENT] Bump Kazoo dependency to 2.4.0. See [#623][], thanks [@jeffwidman][]
 * [IMPROVEMENT] Bump kafka-python to 1.3.4. See [#684][], thanks [@jeffwidman][]
 * [IMPROVEMENT] Switch ZK example from string to list. See [#624][], thanks [@jeffwidman][]
 
-
-1.0.1 / 2017-04-24
-==================
-
-### Changes
+## 1.0.1 / 2017-04-24
 
 * [DEPENDENCY] bumping kafka-python to 0.3.3. See [#272][] (Thanks [@jeffwidman][])
 
-1.0.0 / 2017-03-22
-==================
-
-### Changes
+## 1.0.0 / 2017-03-22
 
 * [FEATURE] adds kafka_consumer integration.
 
@@ -45,7 +50,10 @@
 [#623]: https://github.com/DataDog/integrations-core/issues/623
 [#624]: https://github.com/DataDog/integrations-core/issues/624
 [#633]: https://github.com/DataDog/integrations-core/issues/633
+[#654]: https://github.com/DataDog/integrations-core/issues/654
 [#684]: https://github.com/DataDog/integrations-core/issues/684
 [#733]: https://github.com/DataDog/integrations-core/issues/733
 [#753]: https://github.com/DataDog/integrations-core/issues/753
+[#904]: https://github.com/DataDog/integrations-core/issues/904
+[#1022]: https://github.com/DataDog/integrations-core/issues1022
 [@jeffwidman]: https://github.com/jeffwidman

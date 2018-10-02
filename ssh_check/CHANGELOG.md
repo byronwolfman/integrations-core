@@ -1,30 +1,37 @@
 # CHANGELOG - ssh_check
 
-Unreleased
-==========
+## 1.3.1 / 2018-09-04
 
-* If `ssh_check` passes and uses `None` as `exception_message`, downstream aggregator rejects it with a type error. 
-  Instead, specify a default message.
+* [Fixed] Update cryptography to 2.3. See [#1927](https://github.com/DataDog/integrations-core/pull/1927).
+* [Fixed] Add data files to the wheel package. See [#1727](https://github.com/DataDog/integrations-core/pull/1727).
 
-1.1.1 / 2017-08-28
-==================
+## 1.3.0 / 2018-06-20
 
-### Changes
+* [Changed] Bump requests to 2.19.1. See [#1743](https://github.com/DataDog/integrations-core/pull/1743).
+
+## 1.2.0 / 2018-03-23
+
+* [FEATURE] Add custom tag support.
+
+## 1.1.3 / 2018-01-10
+
+* [BUGFIX] Check that the private_key_file exists in the yaml configuration before attempting to access it. See [#988][]
+
+## 1.1.2 / 2017-11-21
+
+* [BUGFIX] If `ssh_check` passes and uses `None` as `exception_message`, downstream aggregator rejects it with a type error.
+  Instead, specify a default message. See [#852][]
+
+## 1.1.1 / 2017-08-28
 
 * [IMPROVEMENT] drop dependency on winrandom_ctypes for windows
 
-1.1.0 / 2017-07-18
-==================
-
-### Changes
+## 1.1.0 / 2017-07-18
 
 * [IMPROVEMENT] Drop dependency on pycrypto. See [#426][] and [#454][]
 * [BUGFIX] Fix misplaced parentheses in config validation. See [#416][], thanks [@ilkka][]
 
-1.0.0 / 2017-03-22
-==================
-
-### Changes
+## 1.0.0 / 2017-03-22
 
 * [FEATURE] adds ssh_check integration.
 
@@ -32,4 +39,6 @@ Unreleased
 [#416]: https://github.com/DataDog/integrations-core/issues/416
 [#426]: https://github.com/DataDog/integrations-core/issues/426
 [#454]: https://github.com/DataDog/integrations-core/issues/454
+[#852]: https://github.com/DataDog/integrations-core/issues/852
+[#988]: https://github.com/DataDog/integrations-core/issues/988
 [@ilkka]: https://github.com/ilkka

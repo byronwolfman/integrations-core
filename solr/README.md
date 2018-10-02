@@ -1,5 +1,7 @@
 # Solr Check
 
+![Solr Graph][8]
+
 ## Overview
 
 The Solr check tracks the state and performance of a Solr cluster. It collects metrics like number of documents indexed, cache hits and evictions, average request times, average requests per second, and more.
@@ -7,23 +9,23 @@ The Solr check tracks the state and performance of a Solr cluster. It collects m
 ## Setup
 ### Installation
 
-The Solr check is packaged with the Agent, so simply [install the Agent](https://app.datadoghq.com/account/settings#agent) on your Solr nodes.
+The Solr check is included in the [Datadog Agent][1] package, so you don't need to install anything else on your Solr nodes.
 
-This check is JMX-based, so you'll need to enable JMX Remote on your Tomcat servers. Read the [JMX Check documentation](http://docs.datadoghq.com/integrations/java/) for more information on that.
+This check is JMX-based, so you'll need to enable JMX Remote on your Solr servers. Read the [JMX Check documentation][2] for more information on that.
 
 ### Configuration
 
-Create a file `solr.yaml` in the Agent's `conf.d` directory. See the [sample solr.yaml](https://github.com/DataDog/integrations-core/blob/master/solr/conf.yaml.example) for all available configuration options:
+Edit the `solr.d/conf.yaml` file, in the `conf.d/` folder at the root of your [Agent's configuration directory][9]. See the [sample solr.d/conf.yaml][3] for all available configuration options:
 
 ```
 instances:
-# location of tomcat
+  # location of tomcat
   - host: localhost
     port: 9999
 
-# if tomcat requires authentication
-#   user: <TOMCAT_USERNAME>
-#   password: <TOMCAT_PASSWORD>
+  # if tomcat requires authentication
+  #   user: <TOMCAT_USERNAME>
+  #   password: <TOMCAT_PASSWORD>
 
 init_config:
   conf:
@@ -92,9 +94,9 @@ init_config:
           metric_type: gauge
 ```
 
-Again, see the [JMX Check documentation](http://docs.datadoghq.com/integrations/java/) for a list of configuration options usable by all JMX-based checks. The page also describes how the Agent tags JMX metrics.
+Again, see the [JMX Check documentation][2] for a list of configuration options usable by all JMX-based checks. The page also describes how the Agent tags JMX metrics.
 
-Restart the Agent to start sending Solr metrics to Datadog.
+[Restart the Agent][4] to start sending Solr metrics to Datadog.
 
 Configuration Options
 
@@ -159,8 +161,8 @@ In that case you can specify an alias for the metric that will become the metric
 
 In that case:
 
-  * The metric type will be a gauge
-  * The metric name will be jmx.\[DOMAIN_NAME].\[ATTRIBUTE_NAME]
+  * The metric type is a gauge
+  * The metric name is `jmx.\[DOMAIN_NAME].\[ATTRIBUTE_NAME]`
 
 Here is another filtering example:
 
@@ -204,35 +206,21 @@ List of filters is only supported in Datadog Agent > 5.3.0. If you are using an 
 
 ### Validation
 
-[Run the Agent's `info` subcommand](https://help.datadoghq.com/hc/en-us/articles/203764635-Agent-Status-and-Information) and look for `solr` under the Checks section:
-
-```
-  Checks
-  ======
-    [...]
-
-    solr
-    -------
-      - instance #0 [OK]
-      - Collected 26 metrics, 0 events & 0 service checks
-
-    [...]
-```
-
-## Compatibility
-
-The solr check is compatible with all major platforms.
+[Run the Agent's `status` subcommand][5] and look for `solr` under the Checks section.
 
 ## Data Collected
 ### Metrics
 
-See [metadata.csv](https://github.com/DataDog/integrations-core/blob/master/solr/metadata.csv) for a list of metrics provided by this check.
+See [metadata.csv][6] for a list of metrics provided by this check.
 
 ### Events
-The Solr check does not include any event at this time.
+The Solr check does not include any events at this time.
 
 ### Service Checks
-The Solr check does not include any service check at this time.
+**solr.can_connect**
+
+Returns `CRITICAL` if the Agent is unable to connect to and collect metrics from the monitored SolR instance. Returns `OK` otherwise.
+
 
 ## Troubleshooting
 ### Commands to view the metrics that are available:
@@ -253,15 +241,11 @@ The `datadog-agent jmx` command was added in version 4.1.0.
 `sudo /etc/init.d/datadog-agent jmx collect`
 
 ## Further Reading
-## Blog Article
-Learn more about infrastructure monitoring and all our integrations on [our blog](https://www.datadoghq.com/blog/)
-
-## Knowledge Base
 ### Parsing a string value into a number
-If your jmxfetch returns only string values like **false** and **true** and you want to transform it into a Datadog gauge metric for advanced usages. For instance if you want the following equivalence for your jmxfetch: 
+If your jmxfetch returns only string values like **false** and **true** and you want to transform it into a Datadog gauge metric for advanced usages. For instance if you want the following equivalence for your jmxfetch:
 
 ```
-"myJmxfetch:false" = myJmxfetch:0 
+"myJmxfetch:false" = myJmxfetch:0
 "myJmxfetch:true" = myJmxfetch:1
 ```
 
@@ -269,11 +253,21 @@ You may use the `attribute` filter as follow:
 
 ```
 ...
-    attribute:
+    attribute:
           myJmxfetch:
             alias: your_metric_name
             metric_type: gauge
             values:
               "false": 0
-              "true": 1
+              "true": 1
 ```
+
+
+[1]: https://app.datadoghq.com/account/settings#agent
+[2]: https://docs.datadoghq.com/integrations/java/
+[3]: https://github.com/DataDog/integrations-core/blob/master/solr/datadog_checks/solr/data/conf.yaml.example
+[4]: https://docs.datadoghq.com/agent/faq/agent-commands/#start-stop-restart-the-agent
+[5]: https://docs.datadoghq.com/agent/faq/agent-commands/#agent-status-and-information
+[6]: https://github.com/DataDog/integrations-core/blob/master/solr/metadata.csv
+[8]: https://raw.githubusercontent.com/DataDog/integrations-core/master/solr/images/solrgraph.png
+[9]: https://docs.datadoghq.com/agent/faq/agent-configuration-files/#agent-configuration-directory

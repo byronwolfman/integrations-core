@@ -1,39 +1,73 @@
 # CHANGELOG - http_check
 
-1.2.0 / 2017-10-10
-==================
+## 2.4.0 / 2018-10-01
 
-### Changes
+* [Fixed] Fix fetching ca_certs from init_config. See [#2318](https://github.com/DataDog/integrations-core/pull/2318).
+* [Added] Allow configuring cert expiration time in seconds. See [#2290](https://github.com/DataDog/integrations-core/pull/2290).
+
+## 2.3.0 / 2018-09-04
+
+* [Fixed] Update cryptography to 2.3. See [#1927](https://github.com/DataDog/integrations-core/pull/1927).
+* [Fixed] fix link in config option description. See [#1865](https://github.com/DataDog/integrations-core/pull/1865).
+* [Added] support NTLM auth. See [#1812](https://github.com/DataDog/integrations-core/pull/1812).
+* [Fixed] Add data files to the wheel package. See [#1727](https://github.com/DataDog/integrations-core/pull/1727).
+
+## 2.2.0 / 2018-06-20
+
+* [Fixed] Add support client auth for http check cert expiration.. See [#1754](https://github.com/DataDog/integrations-core/pull/1754).
+* [Fixed] Check will now send data with PUT, DELETE, and PATCH methods--not just POST. See [#1718](https://github.com/DataDog/integrations-core/pull/1718).
+
+## 2.1.0 / 2018-06-06
+
+* [Fixed] fixes AttributeError when running on 6.2.1. See [#1617](https://github.com/DataDog/integrations-core/pull/1617).
+* [Fixed] Suppress InsecureRequestWarning for urllib3 for http_check. See [#1574](https://github.com/DataDog/integrations-core/pull/1574).
+* [Added] Allow users to disable matching hostnames verification in ssl cert verification. See [#1519](https://github.com/DataDog/integrations-core/pull/1519).
+* [Changed] Emit a warning if disable_ssl_validation is unset. See [#1517](https://github.com/DataDog/integrations-core/pull/1517).
+
+## 2.0.1 / 2018-05-11
+
+* [BUGFIX] Properly detect default certificate file for all supported Platforms. See [#1340][]
+
+## 2.0.0 / 2018-03-23
+
+* [BUGFIX] Make import of default certificate file relative rather than absolute
+  Fixes loading problem on Windows, and/or allows check to be installed in other
+  location
+* [DEPRECATION] Remove the `skip_event` option from the check. See [#1054][]
+
+## 1.4.0 / 2018-02-13
+
+* [IMPROVEMENT] begin deprecation of `no_proxy` config flag in favor of `skip_proxy`. See [#1057][].
+
+## 1.3.1 / 2018-01-17
+
+* [BUGFIX] Use lowercase in an `if statement` for a user defined HTTP method.
+
+## 1.3.0 / 2018-01-10
+
+* [FEATURE] Report http connect status as metrics. See #659.
+* [BUGFIX] User-defined "url" tag replaces default "url" tag. See[#301][]. (Thanks [@colinmollenhour][])
+* [FEATURE] Add configurable ssl server name for cert expiration check. See[#905][].
+
+## 1.2.0 / 2017-10-10
 
 * [FEATURE] Add support for client side certificate. See[#688][]. (Thanks [@xkrt][])
 * [IMPROVEMENT] Make tornado optional. See [#758][].
 
-1.1.2 / 2017-08-28
-==================
-
-### Changes
+## 1.1.2 / 2017-08-28
 
 * [IMPROVEMENT] Improved logging. See [#652][].
 
-1.1.1 / 2017-07-18
-==================
-
-### Changes
+## 1.1.1 / 2017-07-18
 
 * [BUGFIX] Fix response tuple arity in SSL certificate check. See[#461][].
 
-1.1.0 / 2017-06-05
-==================
-
-### Changes
+## 1.1.0 / 2017-06-05
 
 * [FEATURE] Add support for SOAP requests. See [#328][].
 * [FEATURE] Add gauge metric for ssl days left. See [#249][].
 
-1.0.0 / 2017-03-22
-==================
-
-### Changes
+## 1.0.0 / 2017-03-22
 
 * [FEATURE] adds http_check integration.
 
@@ -45,3 +79,8 @@
 [#688]: https://github.com/DataDog/integrations-core/issues/688
 [#758]: https://github.com/DataDog/integrations-core/issues/758
 [@xkrt]: https://github.com/xkrt
+[#905]:https://github.com/DataDog/integrations-core/pull/905
+[#1054]:https://github.com/DataDog/integrations-core/pull/1054
+[#1340]:https://github.com/DataDog/integrations-core/pull/1340
+[#1999]:https://github.com/DataDog/dd-agent/issues/1999
+[#485]:https://github.com/DataDog/integrations-core/issues/485

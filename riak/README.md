@@ -1,5 +1,7 @@
 # Riak Check
 
+![Riak Graph][8]
+
 ## Overview
 
 This check lets you track node, vnode and ring performance metrics from RiakKV or RiakTS.
@@ -7,49 +9,33 @@ This check lets you track node, vnode and ring performance metrics from RiakKV o
 ## Setup
 ### Installation
 
-The Riak check is packaged with the Agent, so simply [install the Agent](https://app.datadoghq.com/account/settings#agent) on your Riak servers. If you need the newest version of the check, install the `dd-check-riak` package.
+The Riak check is included in the [Datadog Agent][1] package, so you don't need to install anything else on your Riak servers.
 
 ### Configuration
 
-Create a file `riak.yaml` in the Agent's `conf.d` directory. See the [sample riak.yaml](https://github.com/DataDog/integrations-core/blob/master/riak/conf.yaml.example) for all available configuration options:
+1. Edit the `riak.d/conf.yaml` file, in the `conf.d/` folder at the root of your [Agent's configuration directory][9].
+	See the [sample riak.yaml][2] for all available configuration options:
 
-```
-init_config:
+    ```yaml
+    init_config:
 
-instances:
-  - url: http://127.0.0.1:8098/stats # or whatever your stats endpoint is
-```
+    instances:
+      	- url: http://127.0.0.1:8098/stats # or whatever your stats endpoint is
+    ```
 
-[Restart the Agent](https://help.datadoghq.com/hc/en-us/articles/203764515-Start-Stop-Restart-the-Datadog-Agent) to start sending Riak metrics to Datadog.
+2. [Restart the Agent][3] to start sending Riak metrics to Datadog.
 
 ### Validation
 
-[Run the Agent's `info` subcommand](https://help.datadoghq.com/hc/en-us/articles/203764635-Agent-Status-and-Information) and look for `riak` under the Checks section:
-
-```
-  Checks
-  ======
-    [...]
-
-    riak
-    -------
-      - instance #0 [OK]
-      - Collected 26 metrics, 0 events & 1 service check
-
-    [...]
-```
-
-## Compatibility
-
-The riak check is compatible with all major platforms.
+[Run the Agent's `status` subcommand][4] and look for `riak` under the Checks section.
 
 ## Data Collected
 ### Metrics
 
-See [metadata.csv](https://github.com/DataDog/integrations-core/blob/master/riak/metadata.csv) for a list of metrics provided by this check.
+See [metadata.csv][5] for a list of metrics provided by this check.
 
 ### Events
-The Riak check does not include any event at this time.
+The Riak check does not include any events at this time.
 
 ### Service Checks
 
@@ -58,7 +44,13 @@ The Riak check does not include any event at this time.
 Returns CRITICAL if the Agent cannot connect to the Riak stats endpoint to collect metrics, otherwise OK.
 
 ## Troubleshooting
-Need help? Contact [Datadog Support](http://docs.datadoghq.com/help/).
+Need help? Contact [Datadog Support][6].
 
-## Further Reading
-Learn more about infrastructure monitoring and all our integrations on [our blog](https://www.datadoghq.com/blog/)
+[1]: https://app.datadoghq.com/account/settings#agent
+[2]: https://github.com/DataDog/integrations-core/blob/master/riak/datadog_checks/riak/data/conf.yaml.example
+[3]: https://docs.datadoghq.com/agent/faq/agent-commands/#start-stop-restart-the-agent
+[4]: https://docs.datadoghq.com/agent/faq/agent-commands/#agent-status-and-information
+[5]: https://github.com/DataDog/integrations-core/blob/master/riak/metadata.csv
+[6]: https://docs.datadoghq.com/help/
+[8]: https://raw.githubusercontent.com/DataDog/integrations-core/master/riak/images/riak_graph.png
+[9]: https://docs.datadoghq.com/agent/faq/agent-configuration-files/#agent-configuration-directory

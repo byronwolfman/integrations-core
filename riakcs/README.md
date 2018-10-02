@@ -1,5 +1,7 @@
 # RiakCS Check
 
+![RiakCS Dashboard][8]
+
 ## Overview
 
 Capture RiakCS metrics in Datadog to:
@@ -10,54 +12,38 @@ Capture RiakCS metrics in Datadog to:
 ## Setup
 ### Installation
 
-The RiakCS check is packaged with the Agent, so simply [install the Agent](https://app.datadoghq.com/account/settings#agent) on your RiakCS nodes. If you need the newest version of the check, install the `dd-check-riakcs` package.
+The RiakCS check is included in the [Datadog Agent][1] package, so you don't need to install anything else on your RiakCS nodes.
 
 ### Configuration
 
-Create a file `riakcs.yaml` in the Agent's `conf.d` directory. See the [sample riakcs.yaml](https://github.com/DataDog/integrations-core/blob/master/riakcs/conf.yaml.example) for all available configuration options:
+1. Edit the `riakcs.yamld/conf.` file, in the `conf.d/` folder at the root of your [Agent's configuration directory][9].
+    See the [sample riakcs.d/conf.yaml][2] for all available configuration options:
 
-```
-init_config:
+    ```yaml
+        init_config:
 
-instances:
-  - host: localhost 
-    port: 8080 
-    access_id: <YOUR_ACCESS_KEY>
-    access_secret: <YOUR_ACCESS_SECRET>
-#   is_secure: true # set to false if your endpoint doesn't use SSL
-#   s3_root: s3.amazonaws.com # 
-```
+        instances:
+          - host: localhost
+            port: 8080
+            access_id: <YOUR_ACCESS_KEY>
+            access_secret: <YOUR_ACCESS_SECRET>
+        #   is_secure: true # set to false if your endpoint doesn't use SSL
+        #   s3_root: s3.amazonaws.com #
+    ```
 
-[Restart the Agent](https://help.datadoghq.com/hc/en-us/articles/203764515-Start-Stop-Restart-the-Datadog-Agent) to start sending RiakCS metrics to Datadog.
+2. [Restart the Agent][3] to start sending RiakCS metrics to Datadog.
 
 ### Validation
 
-[Run the Agent's `info` subcommand](https://help.datadoghq.com/hc/en-us/articles/203764635-Agent-Status-and-Information) and look for `riakcs` under the Checks section:
-
-```
-  Checks
-  ======
-    [...]
-
-    riakcs
-    -------
-      - instance #0 [OK]
-      - Collected 26 metrics, 0 events & 1 service check
-
-    [...]
-```
-
-## Compatibility
-
-The riakcs check is compatible with all major platforms.
+[Run the Agent's `status` subcommand][4] and look for `riakcs` under the Checks section.
 
 ## Data Collected
 ### Metrics
 
-See [metadata.csv](https://github.com/DataDog/integrations-core/blob/master/riakcs/metadata.csv) for a list of metrics provided by this check.
+See [metadata.csv][5] for a list of metrics provided by this check.
 
 ### Events
-The RiackCS check does not include any event at this time.
+The RiackCS check does not include any events at this time.
 
 ### Service Checks
 
@@ -66,7 +52,18 @@ The RiackCS check does not include any event at this time.
 Returns CRITICAL if the Agent cannot connect to the RiakCS endpoint to collect metrics, otherwise OK.
 
 ## Troubleshooting
-Need help? Contact [Datadog Support](http://docs.datadoghq.com/help/).
+Need help? Contact [Datadog Support][6].
 
 ## Further Reading
-To get a better idea of how (or why) to monitor Riak CS performance and availability with Datadog, check out our [series of blog posts](https://www.datadoghq.com/blog/monitor-riak-cs-performance-and-availability/) about it.
+To get a better idea of how (or why) to monitor Riak CS performance and availability with Datadog, check out our [series of blog posts][7] about it.
+
+
+[1]: https://app.datadoghq.com/account/settings#agent
+[2]: https://github.com/DataDog/integrations-core/blob/master/riakcs/datadog_checks/riakcs/data/conf.yaml.example
+[3]: https://docs.datadoghq.com/agent/faq/agent-commands/#start-stop-restart-the-agent
+[4]: https://docs.datadoghq.com/agent/faq/agent-commands/#agent-status-and-information
+[5]: https://github.com/DataDog/integrations-core/blob/master/riakcs/metadata.csv
+[6]: https://docs.datadoghq.com/help/
+[7]: https://www.datadoghq.com/blog/monitor-riak-cs-performance-and-availability/
+[8]: https://raw.githubusercontent.com/DataDog/integrations-core/master/riakcs/images/riakcs_dashboard.png
+[9]: https://docs.datadoghq.com/agent/faq/agent-configuration-files/#agent-configuration-directory

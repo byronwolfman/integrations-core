@@ -1,56 +1,48 @@
 # Btrfs Integration
 
+![BTRFS metric][8]
+
 ## Overview
 
-Get metrics from btrfs service in real time to:
+Get metrics from Btrfs service in real time to:
 
-* Visualize and monitor btrfs states
-* Be notified about btrfs failovers and events.
+* Visualize and monitor Btrfs states
+* Be notified about Btrfs failovers and events.
 
 ## Setup
 ### Installation
 
-The Btrfs check is packaged with the Agent, so simply [install the Agent](https://app.datadoghq.com/account/settings#agent) on every server that uses at least one Btrfs filesystem.
+The Btrfs check is included in the [Datadog Agent][1] package, so you don't need to install anything else on your servers that use at least one Btrfs filesystem.
 
 ### Configuration
 
-1. Configure the Agent according to your needs, edit `conf.d/btrfs.yaml`. See the [sample btrfs.yaml](https://github.com/DataDog/integrations-core/blob/master/btrfs/conf.yaml.example) for all available configuration options.
-2. [Restart the Agent](https://help.datadoghq.com/hc/en-us/articles/203764515-Start-Stop-Restart-the-Datadog-Agent)
+1. Configure the Agent according to your needs, edit the `btrfs.d/conf.yaml` file in the `conf.d/` folder at the root of your [Agent's configuration directory][9].
+    See the [sample btrfs.d/conf.yaml][2] for all available configuration options.
+
+2. [Restart the Agent][3]
 
 ### Validation
 
-[Run the Agent's `info` subcommand](https://help.datadoghq.com/hc/en-us/articles/203764635-Agent-Status-and-Information) and look for `btrfs` under the Checks section:
-
-```
-  Checks
-  ======
-    [...]
-
-    btrfs
-    -------
-      - instance #0 [OK]
-      - Collected 26 metrics, 0 events & 1 service check
-
-    [...]
-```
-
-## Compatibility
-
-The Btrfs check is compatible with all major platforms.
+[Run the Agent's `status` subcommand][4] and look for `btrfs` under the Checks section.
 
 ## Data Collected
 ### Metrics
-See [metadata.csv](https://github.com/DataDog/integrations-core/blob/master/btrfs/metadata.csv) for a list of metrics provided by this integration.
+See [metadata.csv][5] for a list of metrics provided by this integration.
 
 ### Events
-The Btrfs check does not include any event at this time.
+The Btrfs check does not include any events at this time.
 
 ### Service Checks
-The Btrfs check does not include any service check at this time.
+The Btrfs check does not include any service checks at this time.
 
 ## Troubleshooting
-Need help? Contact [Datadog Support](http://docs.datadoghq.com/help/).
+Need help? Contact [Datadog Support][6].
 
-## Further Reading
-
-Learn more about infrastructure monitoring and all our integrations on [our blog](https://www.datadoghq.com/blog/)
+[1]: https://app.datadoghq.com/account/settings#agent
+[2]: https://github.com/DataDog/integrations-core/blob/master/btrfs/datadog_checks/btrfs/data/conf.yaml.example
+[3]: https://docs.datadoghq.com/agent/faq/agent-commands/#start-stop-restart-the-agent
+[4]: https://docs.datadoghq.com/agent/faq/agent-commands/#agent-status-and-information
+[5]: https://github.com/DataDog/integrations-core/blob/master/btrfs/metadata.csv
+[6]: https://docs.datadoghq.com/help/
+[8]: https://raw.githubusercontent.com/DataDog/integrations-core/master/btrfs/images/btrfs_metric.png
+[9]: https://docs.datadoghq.com/agent/faq/agent-configuration-files/#agent-configuration-directory

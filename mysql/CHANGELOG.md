@@ -1,50 +1,67 @@
 # CHANGELOG - mysql
 
-1.0.5 / Unreleased
-==================
+## 1.4.0 / 2018-09-04
 
-### Changes
+* [Fixed] Make sure all checks' versions are exposed. See [#1945](https://github.com/DataDog/integrations-core/pull/1945).
+* [Added] Add channel tag to replica metrics. See [#1753](https://github.com/DataDog/integrations-core/pull/1753).
+* [Fixed] Add data files to the wheel package. See [#1727](https://github.com/DataDog/integrations-core/pull/1727).
 
-* [BUGFIX] Fixes https://github.com/DataDog/integrations-core/issues/783
+## 1.3.0 / 2018-06-13
 
-1.0.4 / 2017-08-28
-==================
+* [Added] Make the max custom queries configurable in the yaml file. See [#1713](https://github.com/DataDog/integrations-core/pull/1713).
 
-### Changes
+### 1.2.1 / 2018-05-31
+
+* [Fixed] Fix replication data extraction when replication channel is set. See [#1639](https://github.com/DataDog/integrations-core/pull/1639).
+* [Fixed] Fix error while fetching mysql pid from psutil . See [#1620](https://github.com/DataDog/integrations-core/pull/1620).
+
+## 1.2.0 / 2018-05-11
+
+* [FEATURE] Add custom tag support to service checks.
+* [BUGFIX] reports slave_service check as `CRITICAL` if `Slave_running` global variable is OFF.
+
+## 1.1.3 / 2018-03-23
+
+* [BUGFIX] Fixes the buffer pool metric to return the aggregated values
+* [DEPENDENCY] Bump the pymysql version from 0.6.6 to 0.8.0
+
+## 1.1.2 / 2018-02-13
+
+* [DOC] Adding configuration for log collection in `conf.yaml`
+
+## 1.1.1 / 2018-02-13
+
+* [BUGFIX] Changes default value of `connect_timeout` to 10. See [#1020][]
+
+## 1.1.0 / 2018-01-10
+
+* [FEATURE] Add support for multi-source replication in both MariaDB and MySQL
+* [FEATURE] tag `mysql.replication.*` metrics with the replication channel name
+
+## 1.0.5 / 2017-11-21
+
+* [BUGFIX] Fixes [#783][]
+
+## 1.0.4 / 2017-08-28
 
 * [BUGFIX] Add new innodb aio read/write format and prevent future crashes from new format. See [#660][]
 * [BUGFIX] Fix bug when options dict is empty. See [#637][]
 * [BUGFIX] Fix slow query check for 95th us percentile. See [#586][], thanks [@EdwardMcConnell][]
 
-1.0.3 / 2017-05-11
-==================
-
-### Changes
+## 1.0.3 / 2017-05-11
 
 * [BUGFIX] MySQL: Fix replication service check for <5.6. See [#394][]
 
-
-1.0.2 / 2017-04-24
-==================
-
-### Changes
+## 1.0.2 / 2017-04-24
 
 * [BUGFIX] MySQL: Fix for replication service check. See [#329][]
 
-
-1.0.1 / 2017-03-23
-==================
-
-### Changes
+## 1.0.1 / 2017-03-23
 
 * [BUGFIX] MySQL: Allow for configurable collection of replica statuses. See [#288][]
 * [BUGFIX] MySQL: Slaves_connected should be a gauge. See [#291][]
 
-
-1.0.0 / 2017-03-23
-==================
-
-### Changes
+## 1.0.0 / 2017-03-23
 
 * [FEATURE] adds mysql integration.
 
@@ -56,4 +73,6 @@
 [#586]: https://github.com/DataDog/integrations-core/issues/586
 [#637]: https://github.com/DataDog/integrations-core/issues/637
 [#660]: https://github.com/DataDog/integrations-core/issues/660
+[#783]: https://github.com/DataDog/integrations-core/issues/783
+[#1020]: https://github.com/DataDog/integrations-core/issues/1020
 [@EdwardMcConnell]: https://github.com/EdwardMcConnell

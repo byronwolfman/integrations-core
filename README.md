@@ -1,42 +1,66 @@
-[![Build Status](https://travis-ci.org/DataDog/integrations-core.svg?branch=master)](https://travis-ci.org/DataDog/integrations-core)
-[![Build status](https://ci.appveyor.com/api/projects/status/8w4s2bilp48n43gw?svg=true)](https://ci.appveyor.com/project/Datadog/integrations-core)
-# Datadog Agent Core Integrations
+# Datadog Agent Integrations - Core
 
-This repository contains the Agent Integrations that Datadog officially develops and supports. To add a new integration, please see the [Integrations Extras](https://github.com/DataDog/integrations-extras) repository and the [accompanying documentation](http://docs.datadoghq.com/guides/integration_sdk/).
+[![Build status][1]][2]
+[![Build status][3]][4]
+[![Coverage status][17]][18]
+[![Documentation Status][19]][20]
 
+This repository contains the Agent Integrations (also known as checks) that Datadog
+officially develops and supports. To add a new integration, please see the [Integrations Extras][5]
+repository and the [accompanying documentation][6].
 
-# Quick development Setup
+The [Datadog Agent][7] packages are equipped with all the Integrations from this
+repository, so to get started using them, you can simply [install the Agent][8]
+for your operating system. The [AGENT_CHANGELOG](AGENT_CHANGELOG.md) file shows
+which Integrations have been updated in each Agent version.
 
-To get started developing with the integrations-core repo you will need: `gem` and `python`.
+## Integrations as Python wheels
 
-We’ve written a gem and a set of scripts to help you get set up, ease development, and provide testing. To begin:
+When working with an integration, you will now be dealing with a more structured
+python project. The new structure should help keep a more sane and modular codebase.
+To help with the transition, please take a look at the following map to understand
+where everything falls into place in the new approach.
 
-- Run `gem install bundler`
-- Run `bundle install`
+| FORMER LOCATION               | NEW LOCATION                                      |
+| ---------------               | ------------                                      |
+| `{integration}/check.py`      | `{integration}/datadog_checks/{integration}/*.py` |
+| `{integration}/test_check.py` | `{integration}/tests/*.py`                        |
+| n/a                           | `{integration}/setup.py`                          |
 
-Once the required Ruby gems have been installed by Bundler, you can easily create a Python environment:
+Now that integrations are cleanly defined as python packages, we will soon be able
+to ship them as Python wheels that will be pip-installable in the Python environment
+embedded into the Datadog Agent. This presents a paradigm change in the way we will
+be delivering standalone integration upgrades, moving away from OS-specific packages
+to idiomatic Python package delivery.
 
-- Run `rake setup_env`. This will install a Python virtual environment along
-  with all the components necessary for integration development (including the
-  core agent used by the integrations). Some basic software might be needed to
-  install the python dependencies like `gcc` and `libssl-dev`.
-- Run `source venv/bin/activate` to activate the installed Python virtual
-  environment. To exit the virtual environment, run `deactivate`. You can learn
-  more about the Python virtual environment on the Virtualenv documentation.
+## Contributing
 
-This is a quick setup but from that point you should be able to run the default test suit `rake ci:run`.
-To go beyond we advise you to read the full documentation [here](http://docs.datadoghq.com/guides/integration_sdk/).
+Working with integrations is easy, the main page of the [development docs][6]
+contains all the info you need to get your dev enviroment up and running in minutes
+to run, test and build a Check. More advanced API documentation can be found [here][20]
 
-# Installing the Integrations
+## Reporting Issues
 
-The [Datadog Agent](https://github.com/DataDog/dd-agent) contains all core integrations from this repository, so to get started using them, simply install the `datadog-agent` package for your operating system.
+For more information on integrations, please reference our [documentation][11]
+and [knowledge base][12]. You can also visit our
+[help page][13] to connect with us.
 
-Additionally, you may install any individual core integration via its own `dd-check-<integration_name>` package, e.g. `dd-check-nginx`. We build these packages from this repository and release them more often than `datadog-agent`. This allows us to distribute integration updates - and brand new integrations - in between releases of `datadog-agent`.
-
-In other words: on the day of a new `datadog-agent` release, you'll likely get the same version of the nginx check from the agent package as you would from `dd-check-nginx`. But if we haven't released a new agent in 6 weeks and this repository contains a bugfix for the nginx check, install the latest `dd-check-nginx` to override the buggy check packaged with `datadog-agent`.
-
-For a check with underscores in its name, its package name replaces underscores with dashes. For example, the `powerdns_recursor` check is packaged as `dd-check-powerdns-recursor`.
-
-# Reporting Issues
-
-For more information on integrations, please reference our [documentation](http://docs.datadoghq.com) and [knowledge base](https://help.datadoghq.com/hc/en-us). You can also visit our [help page](http://docs.datadoghq.com/help/) to connect with us.
+[1]: https://travis-ci.org/DataDog/integrations-core.svg?branch=master
+[2]: https://travis-ci.org/DataDog/integrations-core
+[3]: https://ci.appveyor.com/api/projects/status/8w4s2bilp48n43gw?svg=true
+[4]: https://ci.appveyor.com/project/Datadog/integrations-core
+[5]: https://github.com/DataDog/integrations-extras
+[6]: https://docs.datadoghq.com/developers/integrations
+[7]: https://github.com/DataDog/datadog-agent
+[8]: https://docs.datadoghq.com/agent/
+[9]: https://docs.pytest.org/en/latest/
+[10]: https://packaging.python.org/tutorials/distributing-packages/
+[11]: https://docs.datadoghq.com
+[12]: https://help.datadoghq.com/hc/en-us
+[13]: https://docs.datadoghq.com/help/
+[15]: https://github.com/DataDog/integrations-core/blob/6.2.1/requirements-integration-core.txt
+[16]: https://github.com/DataDog/integrations-core/blob/ea2dfbf1e8859333af4c8db50553eb72a3b466f9/requirements-agent-release.txt
+[17]: https://codecov.io/github/DataDog/integrations-core/coverage.svg?branch=master
+[18]: https://codecov.io/github/DataDog/integrations-core?branch=master
+[19]: https://readthedocs.org/projects/datadog-checks-base/badge/?version=latest
+[20]: https://datadog-checks-base.readthedocs.io/en/latest/?badge=latest

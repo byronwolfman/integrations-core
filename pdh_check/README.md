@@ -1,42 +1,37 @@
-# Wmi_check Integration
+# Windows Performance Counters Integration
 
 ## Overview
 
 Get metrics from Windows performance counters in real time to:
 
-* Visualize and monitor windows performance counters
+* Visualize and monitor windows performance counters through the pdh api
 
 ## Setup
 ### Installation
 
-Install the `dd-check-pdh_check` package manually or with your favorite configuration manager
+The PDH check is included in the [Datadog Agent][1] package, so you don't need to install anything else on your servers.
 
 ### Configuration
 
-Edit the `pdh_check.yaml` file to collect Windows performance data. See the [sample pdh_check.yaml](https://github.com/DataDog/integrations-core/blob/master/pdh_check/conf.yaml.example) for all available configuration options.
+Edit the `pdh_check.d/conf.yaml` file, in the `conf.d/` folder at the root of your [Agent's configuration directory][5] to collect Windows performance data. See the [sample pdh_check.d/conf.yaml][2] for all available configuration options.
 
 ### Validation
 
-[Run the Agent's `info` subcommand](https://help.datadoghq.com/hc/en-us/articles/203764635-Agent-Status-and-Information) and look for `pdh_check` under the Checks section:
-
-    Checks
-    ======
-
-        pdh_check
-        -----------
-          - instance #0 [OK]
-          - Collected 39 metrics, 0 events & 7 service checks
-
-## Compatibility
-
-The pdh_check check is compatible with Windows.
+[Run the Agent's `status` subcommand][3] and look for `pdh_check` under the Checks section.
 
 ## Data Collected
 ### Metrics
-See [metadata.csv](https://github.com/DataDog/integrations-core/blob/master/pdh_check/metadata.csv) for a list of metrics provided by this integration.
+See [metadata.csv][4] for a list of metrics provided by this integration.
 
 ### Events
-The PDH check does not include any event at this time.
+The PDH check does not include any events at this time.
 
 ### Service Checks
-The PDH check does not include any service check at this time.
+The PDH check does not include any service checks at this time.
+
+
+[1]: https://app.datadoghq.com/account/settings#agent
+[2]: https://github.com/DataDog/integrations-core/blob/master/pdh_check/datadog_checks/pdh_check/data/conf.yaml.example
+[3]: https://docs.datadoghq.com/agent/faq/agent-commands/#agent-status-and-information
+[4]: https://github.com/DataDog/integrations-core/blob/master/pdh_check/metadata.csv
+[5]: https://docs.datadoghq.com/agent/faq/agent-configuration-files/#agent-configuration-directory
